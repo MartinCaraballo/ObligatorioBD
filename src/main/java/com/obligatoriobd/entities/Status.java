@@ -8,10 +8,12 @@ import java.sql.SQLException;
 
 public class Status implements IDataBaseEntity {
 
+    public static final String TABLE_NAME = "Status";
+
     private int statusId;
     private String statusName;
 
-    public Status(int aStatusId, String aStatusName) {
+    private Status(int aStatusId, String aStatusName) {
         statusId = aStatusId;
         statusName = aStatusName;
     }
@@ -23,5 +25,15 @@ public class Status implements IDataBaseEntity {
         preparedStatement.setInt(1, statusId);
         preparedStatement.setString(2, statusName);
         return preparedStatement;
+    }
+
+    /**
+     * Method to create a status object from a csv line.
+     *
+     * @param csvLineDataSplitted csv line containing the data necessary to create a status object.
+     * @return Status object if the data given was ok, null if it not does.
+     */
+    public static Status createFromCsv(String[] csvLineDataSplitted) {
+        return null;
     }
 }

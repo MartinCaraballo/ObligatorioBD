@@ -12,5 +12,5 @@ public interface IDataBaseEntity {
      * @return                   PreparedStatement listo para que el controlador pueda ejecutar la consulta.
      * @throws SQLException      Si ocurre algún error durante la consulta.
      */
-    public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException;
+    PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException;
 }

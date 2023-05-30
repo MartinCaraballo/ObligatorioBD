@@ -4,14 +4,27 @@ import java.sql.*;
 
 public class DataBaseController {
 
+    private static DataBaseController dbController;
+
     private final String DATABASE_URL;
     private final String DATABASE_USER;
     private final String DATABASE_PASSWD;
 
-    public DataBaseController(String dataBaseUrl, String dataBaseUser, String dataBasePasswd) {
+    private DataBaseController(String dataBaseUrl, String dataBaseUser, String dataBasePasswd) {
         DATABASE_URL = dataBaseUrl;
         DATABASE_USER = dataBaseUser;
         DATABASE_PASSWD = dataBasePasswd;
+    }
+
+    public static DataBaseController getDataBaseController(String dataBaseUrl, String dataBaseUser, String dataBasePasswd) {
+        if (dbController == null) {
+            dbController = new DataBaseController(dataBaseUrl, dataBaseUser, dataBasePasswd);
+        }
+        return dbController;
+    }
+
+    public static DataBaseController getDataBaseController() {
+        return dbController;
     }
 
     public void insertEntity(IDataBaseEntity dataBaseEntity) throws SQLException {

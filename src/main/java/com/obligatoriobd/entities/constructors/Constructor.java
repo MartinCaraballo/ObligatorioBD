@@ -9,6 +9,8 @@ import java.sql.SQLException;
 
 public class Constructor implements IDataBaseEntity {
 
+    public static final String TABLE_NAME = "Constructor";
+
     private int constructorId;
     private String constructorRef;
     private String name;
@@ -34,4 +36,5 @@ public class Constructor implements IDataBaseEntity {
         preparedStatement.setString(5, url);
         return preparedStatement;
     }
+
 }
