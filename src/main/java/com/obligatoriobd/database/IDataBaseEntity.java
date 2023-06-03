@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public interface IDataBaseEntity {
 
     /**
-     * Método para que el controlador de la base de datos obtenga la consulta sql con los datos del objeto que se quiere persistir.
-     * @param dataBaseConnection Conexión a la base de datos para poder crear el preparedStatement.
-     * @return                   PreparedStatement listo para que el controlador pueda ejecutar la consulta.
-     * @throws SQLException      Si ocurre algún error durante la consulta.
+     * Method for the database controller to get the sql query with the object that contains the data to persist.
+     * @param dataBaseConnection Connection to the database necessary to get the preparedStatement and build the query.
+     * @return                   PreparedStatement ready to execute the query.
+     * @throws SQLException      If an error occur with the connection.
      */
     PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException;
 }

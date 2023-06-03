@@ -16,11 +16,51 @@ public class DataBaseController {
         DATABASE_PASSWD = dataBasePasswd;
     }
 
-    public static DataBaseController getDataBaseController(String dataBaseUrl, String dataBaseUser, String dataBasePasswd) {
+    /**
+     * Connects to the database with the credentials indicated if there is not an existing one.
+     *
+     * @param dataBaseUrl    url to the database.
+     * @param dataBaseUser   database's user.
+     * @param dataBasePasswd database's password.
+     */
+    public static Boolean connect(String dataBaseUrl, String dataBaseUser, String dataBasePasswd) throws IllegalStateException {
         if (dbController == null) {
             dbController = new DataBaseController(dataBaseUrl, dataBaseUser, dataBasePasswd);
+            return dbController.testConnection();
         }
-        return dbController;
+        throw new IllegalStateException("There is already a connection to a database.");
+    }
+
+    /**
+     * Disconnects the actual database.
+     */
+    public static void disconnect() { dbController = null; }
+
+    /**
+     * Change the connection if the new one is reachable.
+     *
+     * @param dataBaseUrl    url to the new database.
+     * @param dataBaseUser   database's new user.
+     * @param dataBasePasswd database's new password.
+     */
+    public static Boolean changeConnection(String dataBaseUrl, String dataBaseUser, String dataBasePasswd) throws IllegalAccessException {
+        DataBaseController old = dbController;
+        dbController = new DataBaseController(dataBaseUrl, dataBaseUser, dataBasePasswd);
+        if (dbController.testConnection()) {
+            return true;
+        }
+        dbController = old;
+        throw new IllegalAccessException("The new database is unreachable. Connection was not changed.");
+    }
+
+    private Boolean testConnection() {
+        try {
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
+            connection.close();
+            return true;
+        } catch (SQLException connectionAttempt) {
+            return false;
+        }
     }
 
     public static DataBaseController getDataBaseController() {
@@ -35,31 +75,27 @@ public class DataBaseController {
     }
 
     /**
-     * Envía una consulta tal cual se manda como parametro.
+     * Sends select query passed in String.
      *
-     * @param query String con la query para enviar
-     * @return Devuelve el resultado de la consulta en un String.
-     * @throws Exception Si ocurre un error en la consulta.
+     * @param query         String with the query.
+     * @return              Returns the result of the select query.
+     * @throws SQLException If the query can't be sent.
      */
-    public String sendSelectQuery(String query) {
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
-            Statement dbStatement = connection.createStatement();
-            ResultSet resultSet = dbStatement.executeQuery(query);
-            return getQueryResult(resultSet);
-        } catch (Exception exception) {
-            return exception.getMessage();
-        }
+    public String sendSelectQuery(String query) throws SQLException {
+        Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
+        Statement dbStatement = connection.createStatement();
+        ResultSet resultSet = dbStatement.executeQuery(query);
+        return getQueryResult(resultSet);
     }
 
     /**
-     * Devuelve un String con el resultado de un select.
+     * Returns the select query result.
      *
-     * @param resultSet Respuesta de la consula select.
-     * @return String con el resultado de la consulta.
-     * @throws Exception Si ocurre algun error durante el proceso de obtener el resultado.
+     * @param resultSet     Select executeQuery response.
+     * @return              String with the response.
+     * @throws SQLException If some error occur in the process.
      */
-    public String getQueryResult(ResultSet resultSet) throws Exception {
+    public String getQueryResult(ResultSet resultSet) throws SQLException {
         StringBuilder queryResult = new StringBuilder();
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         int columnCount = resultSetMetaData.getColumnCount();

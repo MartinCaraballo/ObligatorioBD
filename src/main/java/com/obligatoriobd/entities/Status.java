@@ -20,7 +20,7 @@ public class Status implements IDataBaseEntity {
 
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO Status (status_id, status_name) VALUES(?, ?);";
+        String baseQuery = "INSERT INTO Status (status_id, status) VALUES(?, ?);";
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(baseQuery);
         preparedStatement.setInt(1, statusId);
         preparedStatement.setString(2, statusName);
@@ -33,7 +33,8 @@ public class Status implements IDataBaseEntity {
      * @param csvLineDataSplitted csv line containing the data necessary to create a status object.
      * @return Status object if the data given was ok, null if it not does.
      */
-    public static Status createFromCsv(String[] csvLineDataSplitted) {
-        return null;
+    public static Status createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
+        String statusName = csvLineDataSplitted[1].replace("\"", "");
+        return new Status(Integer.parseInt(csvLineDataSplitted[0]), statusName);
     }
 }

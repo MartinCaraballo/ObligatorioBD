@@ -20,3 +20,35 @@
 1685410434915:help
 1685410469965:load-from-csv constructor patharchivo
 1685411483776:help
+1685815224078:load-from-csv status src/f1/database/status.csv
+1685815359542:help
+1685815383665:load-from-csv status ./src/f1-database/status.csv
+1685815517288:help
+1685815533955:load-from-csv status ./src/f1-database/status.csv
+1685815943649:/help
+1685815945717:help
+1685815989718:connect root, javon, jdbc:mysql://localhost:3306/ObligatorioBD
+1685816057542:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685816076681:help
+1685816085490:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685816613084:help
+1685816631821:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685816654160:history
+1685816673178:clear
+1685816694956:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685817029574:help
+1685817041390:load-from-csv status ./src/f1-database/status.csv
+1685817208136:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685817236184:load-from-csv status ./src/f1-database/status.csv
+1685817323890:help
+1685817341766:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685817359901:load-from-csv status ./src/f1-database/status.csv
+1685818916440:help
+1685818922896:connect root javon public static void escribirArchivo(String nombreCompletoArchivo, String[] listaLineasArchivo) {
+1685818962681:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685818988678:load-from-csv status ./src/f1-database/status.csv
+1685819041229:load-from-csv status
+1685819054379:clear
+1685819815784:load-from-csv status ./src/f1-database/status.csv
+1685819858039:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685819877387:load-from-csv status ./src/f1-database/status.csv
