@@ -52,3 +52,17 @@
 1685819815784:load-from-csv status ./src/f1-database/status.csv
 1685819858039:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
 1685819877387:load-from-csv status ./src/f1-database/status.csv
+1685820848844:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685820919393:connect asdsad
+1685820924904:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685822466708:help
+1685822475146:connect
+1685822513092:help
+1685822517183:connect
+1685822694542:help
+1685822698132:connect
+1685822760354:help
+1685822762924:connect
+1685822803840:disconnect
+1685822823932:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685822848039:connect

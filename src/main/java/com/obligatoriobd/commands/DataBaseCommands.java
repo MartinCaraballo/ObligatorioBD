@@ -1,19 +1,36 @@
 package com.obligatoriobd.commands;
 
 import com.obligatoriobd.database.DataBaseController;
+import com.obligatoriobd.utils.FileResolver;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import java.util.Map;
+import org.springframework.shell.standard.ShellOption;
+
+import java.io.IOException;
 
 @ShellComponent
 public class DataBaseCommands {
 
+    @ShellMethod(key = "connect", value = "Connect with the last credentials used.")
+    public String connect() {
+        try {
+            String[] lastCredentials = FileResolver.readFile("./src/main/java/com/obligatoriobd/connection.env");
+            if (lastCredentials[0].isEmpty()) {
+                return "No saved credentials found.";
+            }
+            return connect(lastCredentials[0], lastCredentials[1], lastCredentials[2]);
+        } catch (IOException fileReadError) {
+            return "The last credentials used are not available.";
+        }
+    }
+
     @ShellMethod(key = "connect", value = "Params: user, passwd, url\n\t\tConnects to the database with the indicated credentials.")
-    public String connect(String user, String passwd, String url) {
+    public String connect(@ShellOption String user, String passwd, String url) {
         try {
             Boolean connectionResult = DataBaseController.connect(url, user, passwd);
             if (connectionResult) {
-
+                String[] toWrite = { user, passwd, url };
+                FileResolver.writeFile("./src/main/java/com/obligatoriobd/connection.env", toWrite, false);
             }
             return (connectionResult) ? "Connection successful." : "Connection failed.";
         } catch (IllegalStateException connectState) {

@@ -17,10 +17,10 @@ public class FileResolver {
         return listaLineasArchivo.toArray(new String[0]);
     }
 
-    public static void writeFile(String nombreCompletoArchivo, String[] listaLineasArchivo) {
+    public static void writeFile(String nombreCompletoArchivo, String[] listaLineasArchivo, boolean append) {
         FileWriter fw;
         try {
-            fw = new FileWriter(nombreCompletoArchivo, true);
+            fw = new FileWriter(nombreCompletoArchivo, append);
             BufferedWriter bw = new BufferedWriter(fw);
             for (int i = 0; i < listaLineasArchivo.length; i++) {
                 String lineaActual = listaLineasArchivo[i];
