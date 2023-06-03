@@ -9,6 +9,8 @@ import java.sql.Time;
 
 public class SprintResult implements IDataBaseEntity {
 
+    public static final String TABLE_NAME = "Sprint_Result";
+
     private int resultId;
     private int raceId;
     private int driverId;
@@ -85,4 +87,5 @@ public class SprintResult implements IDataBaseEntity {
         preparedStatement.setInt(16, statusId);
         return preparedStatement;
     }
+
 }

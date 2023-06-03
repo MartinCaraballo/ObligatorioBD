@@ -8,6 +8,8 @@ import java.sql.SQLException;
 
 public class Circuit implements IDataBaseEntity {
 
+    public static final String TABLE_NAME = "Circuit";
+
     private int circuitId;
     private String circuitRef;
     private String name;
@@ -45,4 +47,5 @@ public class Circuit implements IDataBaseEntity {
         preparedStatement.setString(9, url);
         return preparedStatement;
     }
+
 }

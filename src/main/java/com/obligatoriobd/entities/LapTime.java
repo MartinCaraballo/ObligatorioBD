@@ -9,6 +9,8 @@ import java.sql.Time;
 
 public class LapTime implements IDataBaseEntity {
 
+    public static final String TABLE_NAME = "Lap_Time";
+
     private int raceId;
     private int driverId;
     private int lap;
@@ -37,4 +39,5 @@ public class LapTime implements IDataBaseEntity {
         preparedStatement.setTime(6, milliseconds);
         return preparedStatement;
     }
+
 }

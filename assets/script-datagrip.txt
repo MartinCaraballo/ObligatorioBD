@@ -1,0 +1,195 @@
+CREATE DATABASE ObligatorioBD;
+
+USE ObligatorioBD;
+
+CREATE TABLE Status(
+    status_id int primary key,
+    status varchar(30) NOT NULL
+);
+
+CREATE TABLE Seasons(
+    year int primary key,
+    url varchar(80)
+);
+
+CREATE TABLE Circuits(
+    circuit_id int primary key,
+    circuit_ref varchar(30),
+    name varchar(40),
+    location varchar(30),
+    country varchar(20),
+    lat double,
+    lng double,
+    alt double,
+    url varchar(80)
+);
+
+CREATE TABLE Drivers(
+    driver_id int primary key,
+    driver_ref varchar(25),
+    number int,
+    code varchar(3),
+    forename varchar(20),
+    surname varchar(20),
+    date_of_birth date,
+    nationality varchar(20),
+    url varchar(80)
+);
+
+CREATE TABLE Constructors(
+    constructor_id int primary key,
+    constructor_ref varchar(20),
+    name varchar(20),
+    nationality varchar(15),
+    url varchar(60)
+);
+
+CREATE TABLE Races (
+    race_id int primary key,
+    year int,
+    round int,
+    circuit_id int,
+    name varchar(50),
+    date date,
+    time time,
+    url varchar(80),
+    fp1_date date,
+    fp1_time time,
+    fp2_date date,
+    fp2_time time,
+    fp3_date date,
+    fp3_time time,
+    qualification_date date,
+    qualification_time time,
+    sprint_date date,
+    sprint_time time,
+
+    FOREIGN KEY (year) REFERENCES Seasons(year),
+    FOREIGN KEY (circuit_id) REFERENCES Circuits(circuit_id)
+);
+
+CREATE TABLE Lap_Times(
+    race_id int primary key,
+    driver_id int,
+    lap int,
+    position int,
+    time varchar(10),
+    milliseconds int,
+
+    FOREIGN KEY (race_id) REFERENCES Races(race_id),
+    FOREIGN KEY (driver_id) REFERENCES Drivers(driver_id)
+);
+
+CREATE TABLE Pit_Stops(
+    race_id int primary key,
+    driver_id int,
+    stop int,
+    lap int,
+    time time,
+    duration varchar(10),
+    milliseconds int,
+
+    FOREIGN KEY (race_id) REFERENCES Races(race_id),
+    FOREIGN KEY (driver_id) REFERENCES Drivers(driver_id)
+);
+
+CREATE TABLE Qualifying(
+    qualify_id int primary key,
+    race_id int,
+    driver_id int,
+    constructor_id int,
+    number int,
+    position int,
+    q1 varchar(10),
+    q2 varchar(10),
+    q3 varchar(10),
+
+    FOREIGN KEY (race_id) REFERENCES Races(race_id),
+    FOREIGN KEY (driver_id) REFERENCES Drivers(driver_id),
+    FOREIGN KEY (constructor_id) REFERENCES Constructors(constructor_id)
+);
+
+CREATE TABLE Results(
+    result_id int primary key,
+    race_id int,
+    driver_id int,
+    constructor_id int,
+    number int,
+    grid int,
+    position int,
+    position_text varchar(3),
+    position_order int,
+    points int,
+    laps int,
+    time varchar(15),
+    milliseconds int,
+    fastest_lap int,
+    result_rank int,
+    fastest_lap_time varchar(15),
+    fastest_lap_speed double,
+    status_id int,
+
+    FOREIGN KEY (race_id) REFERENCES Races(race_id),
+    FOREIGN KEY (driver_id) REFERENCES Drivers(driver_id),
+    FOREIGN KEY (constructor_id) REFERENCES Constructors(constructor_id),
+    FOREIGN KEY (status_id) REFERENCES Status(status_id)
+);
+
+CREATE TABLE Sprint_Results(
+    result_id int primary key,
+    race_id int,
+    driver_id int,
+    constructor_id int,
+    number int,
+    grid int,
+    position int,
+    position_text varchar(3),
+    position_order int,
+    points int,
+    laps int,
+    time varchar(15),
+    milliseconds int,
+    fastest_lap int,
+    fastest_lap_time varchar(15),
+    status_id int,
+
+    FOREIGN KEY (result_id) REFERENCES Results(result_id),
+    FOREIGN KEY (race_id) REFERENCES Races(race_id),
+    FOREIGN KEY (driver_id) REFERENCES Drivers(driver_id),
+    FOREIGN KEY (constructor_id) REFERENCES Constructors(constructor_id),
+    FOREIGN KEY (status_id) REFERENCES Status(status_id)
+);
+
+CREATE TABLE Driver_Standings(
+    driver_standings_id int primary key,
+    race_id int,
+    driver_id int,
+    points int,
+    position int,
+    position_text varchar(3),
+    wins int,
+
+    FOREIGN KEY (race_id) REFERENCES Races(race_id),
+    FOREIGN KEY (driver_id) REFERENCES Drivers(driver_id)
+);
+
+CREATE TABLE Constructor_Results(
+    constructor_results_id int primary key,
+    race_id int,
+    constructor_id int,
+    points int,
+    status varchar(1)
+);
+
+CREATE TABLE Constructor_Standings(
+    constructor_standings_id int primary key,
+    race_id int,
+    constructor_id int,
+    points int,
+    position int,
+    position_text varchar(3),
+    wins int,
+
+    FOREIGN KEY (race_id) REFERENCES Races(race_id),
+    FOREIGN KEY (constructor_id) REFERENCES Constructors(constructor_id)
+);

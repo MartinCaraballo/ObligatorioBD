@@ -8,6 +8,8 @@ import java.sql.SQLException;
 
 public class DriverStanding implements IDataBaseEntity {
 
+    public static final String TABLE_NAME = "Driver_Standing";
+
     private int driverStandingsId;
     private int raceId;
     private int driverId;

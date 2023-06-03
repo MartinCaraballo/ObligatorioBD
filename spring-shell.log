@@ -1,2 +1,68 @@
 1685392930968:hello
 1685392933916:help
+1685407925681:load-from-csv status unpath
+1685408060451:help
+1685408070827:load-from-csv status xd
+1685408162474:load-from-csv constructorstanding xd
+1685408426809:load-from-csv constructor xd
+1685409656702:help
+1685409666481:load-from-csv status xd
+1685409677898:load-from-csv constructor xd
+1685409970522:laod-from-csb
+1685409975310:load-from-csb
+1685409984784:load-from-csv constructor xd
+1685410181976:load-from-csv
+1685410191416:load-from-csv status xd
+1685410313697:load-from-csv constructor algo
+1685410335683:load-from-csv status algo
+1685410347342:load-from-csv lap_time algo
+1685410400848:load-from-csv constructor algo
+1685410434915:help
+1685410469965:load-from-csv constructor patharchivo
+1685411483776:help
+1685815224078:load-from-csv status src/f1/database/status.csv
+1685815359542:help
+1685815383665:load-from-csv status ./src/f1-database/status.csv
+1685815517288:help
+1685815533955:load-from-csv status ./src/f1-database/status.csv
+1685815943649:/help
+1685815945717:help
+1685815989718:connect root, javon, jdbc:mysql://localhost:3306/ObligatorioBD
+1685816057542:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685816076681:help
+1685816085490:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685816613084:help
+1685816631821:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685816654160:history
+1685816673178:clear
+1685816694956:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685817029574:help
+1685817041390:load-from-csv status ./src/f1-database/status.csv
+1685817208136:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685817236184:load-from-csv status ./src/f1-database/status.csv
+1685817323890:help
+1685817341766:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685817359901:load-from-csv status ./src/f1-database/status.csv
+1685818916440:help
+1685818922896:connect root javon public static void escribirArchivo(String nombreCompletoArchivo, String[] listaLineasArchivo) {
+1685818962681:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685818988678:load-from-csv status ./src/f1-database/status.csv
+1685819041229:load-from-csv status
+1685819054379:clear
+1685819815784:load-from-csv status ./src/f1-database/status.csv
+1685819858039:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685819877387:load-from-csv status ./src/f1-database/status.csv
+1685820848844:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685820919393:connect asdsad
+1685820924904:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685822466708:help
+1685822475146:connect
+1685822513092:help
+1685822517183:connect
+1685822694542:help
+1685822698132:connect
+1685822760354:help
+1685822762924:connect
+1685822803840:disconnect
+1685822823932:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
+1685822848039:connect

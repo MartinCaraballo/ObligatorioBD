@@ -9,6 +9,8 @@ import java.sql.Time;
 
 public class PitStop implements IDataBaseEntity {
 
+    public static final String TABLE_NAME = "Pit_Stop";
+
     private int raceId;
     private int driverId;
     private int stop;
@@ -40,4 +42,5 @@ public class PitStop implements IDataBaseEntity {
         preparedStatement.setTime(7, milliseconds);
         return preparedStatement;
     }
+
 }
