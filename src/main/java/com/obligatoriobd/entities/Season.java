@@ -11,7 +11,7 @@ public class Season implements IDataBaseEntity {
     private int year;
     private String url;
 
-    public Season(int seasonYear, String seasonInfoURL) {
+    private Season(int seasonYear, String seasonInfoURL) {
         year = seasonYear;
         url = seasonInfoURL;
     }
@@ -23,6 +23,17 @@ public class Season implements IDataBaseEntity {
         preparedStatement.setInt(1, year);
         preparedStatement.setString(2, url);
         return preparedStatement;
+    }
+
+    /**
+     * Method to create a season object from a csv line.
+     *
+     * @param csvLineDataSplitted csv line containing the data necessary to create a season object.
+     * @return Season object if the data given was ok, null if it not does.
+     */
+    public static Season createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
+        String seasonUrl = csvLineDataSplitted[1].replace("\"", "");
+        return new Season(Integer.parseInt(csvLineDataSplitted[0]), seasonUrl);
     }
 
 }
