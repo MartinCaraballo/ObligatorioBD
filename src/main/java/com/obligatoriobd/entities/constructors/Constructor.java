@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class Constructor implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Constructor";
+    public static final String TABLE_NAME = "Constructors";
 
     private int constructorId;
     private String constructorRef;

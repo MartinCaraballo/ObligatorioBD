@@ -9,7 +9,7 @@ import java.sql.Time;
 
 public class PitStop implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Pit_Stop";
+    public static final String TABLE_NAME = "Pit_Stops";
 
     private int raceId;
     private int driverId;

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class Circuit implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Circuit";
+    public static final String TABLE_NAME = "Circuits";
 
     private int circuitId;
     private String circuitRef;

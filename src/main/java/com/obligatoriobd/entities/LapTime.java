@@ -9,7 +9,7 @@ import java.sql.Time;
 
 public class LapTime implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Lap_Time";
+    public static final String TABLE_NAME = "Lap_Times";
 
     private int raceId;
     private int driverId;

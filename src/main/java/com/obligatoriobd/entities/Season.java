@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class Season implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Season";
+    public static final String TABLE_NAME = "Seasons";
 
     private int year;
     private String url;

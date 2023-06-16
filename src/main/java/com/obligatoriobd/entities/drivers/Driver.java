@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class Driver implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Driver";
+    public static final String TABLE_NAME = "Drivers";
 
     private int driverId;
     private String driverRef;
