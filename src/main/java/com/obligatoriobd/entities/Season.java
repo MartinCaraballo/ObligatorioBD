@@ -24,5 +24,14 @@ public class Season implements IDataBaseEntity {
         preparedStatement.setString(2, url);
         return preparedStatement;
     }
+    public static Season createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
+        for (int i = 0; i < csvLineDataSplitted.length; i++) {
+            csvLineDataSplitted[i] = csvLineDataSplitted[i].replace("\"", "");
+        }
 
+        int year = Integer.parseInt(csvLineDataSplitted[0]);
+        String url = csvLineDataSplitted[1];
+
+        return new Season(year,url);
+    }
 }
