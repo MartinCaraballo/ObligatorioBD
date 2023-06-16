@@ -1,12 +1,15 @@
 package com.obligatoriobd.entities;
 
 import com.obligatoriobd.database.IDataBaseEntity;
+import com.obligatoriobd.utils.Convertions;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+
+import static com.obligatoriobd.utils.Convertions.convertToDouble;
 
 public class Circuit implements IDataBaseEntity {
 
@@ -79,20 +82,4 @@ public class Circuit implements IDataBaseEntity {
         String url = csvLineDataSplitted[8].replace("\"", "");
         return new Circuit(circuitId, circuitRef, name, location, country, latitude, longitude, altitude, url);
     }
-
-    /**
-     * Returns a number from a string if is possible or returns null in case of wrong or empty data.
-     * @param number            String with the number to cast.
-     * @param dataLineNumber    line in the file of the value.
-     * @return Number in the string or null if the value is wrong or empty.
-     */
-    private static Double convertToDouble(String number, int dataLineNumber) {
-        try {
-            return Double.parseDouble(number);
-        } catch (NumberFormatException numberFormatException) {
-            System.err.println("Error parsing data in line " + dataLineNumber + ". Wrong or empty data.");
-            return null;
-        }
-    }
-
 }
