@@ -31,9 +31,14 @@ public class Season implements IDataBaseEntity {
      * @param csvLineDataSplitted csv line containing the data necessary to create a season object.
      * @return Season object if the data given was ok, null if it not does.
      */
-    public static Season createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
-        String seasonUrl = csvLineDataSplitted[1].replace("\"", "");
-        return new Season(Integer.parseInt(csvLineDataSplitted[0]), seasonUrl);
+    public static Season createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
+        try {
+            String seasonUrl = csvLineDataSplitted[1].replace("\"", "");
+            return new Season(Integer.parseInt(csvLineDataSplitted[0]), seasonUrl);
+        } catch (NumberFormatException numberFormatException) {
+            throw new NumberFormatException("Error parsing data in line " + dataLineNumber + ". Wrong or empty data.");
+        }
+
     }
 
 }

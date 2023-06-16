@@ -66,3 +66,6 @@
 1685822803840:disconnect
 1685822823932:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
 1685822848039:connect
+1686923638233:load-from-csv seasons ./src/f1-database/seasons.csv
+1686923880694:connect
+1686923892851:load-from-csv seasons ./src/f1-database/seasons.csv
