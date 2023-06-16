@@ -55,7 +55,7 @@ public class SprintResult implements IDataBaseEntity {
                 "race_id," +
                 "driver_id," +
                 "constructor_id," +
-                "number, " +
+                "number," +
                 "grid," +
                 "position," +
                 "position_text," +
@@ -83,7 +83,7 @@ public class SprintResult implements IDataBaseEntity {
                 }
 
             } catch (IllegalAccessException illegalAccessException) {
-                System.out.println("Error getting data to insert.");
+                System.err.println("Error getting data to insert.");
             }
         }
         return preparedStatement;
@@ -134,15 +134,14 @@ public class SprintResult implements IDataBaseEntity {
     }
 
     /**
-     * Returns a number from a string if is possible or returns -1 in case of wrong or empty data.
+     * Returns a number from a string if is possible or returns null in case of wrong or empty data.
      * @param number            String with the number to cast.
      * @param dataLineNumber    line in the file of the value.
-     * @return Number in the string or -1 if the value is wrong or empty.
+     * @return Number in the string or null if the value is wrong or empty.
      */
     private static Integer convertToInt(String number, int dataLineNumber) {
         try {
             return Integer.parseInt(number);
-
         } catch (NumberFormatException numberFormatException) {
             System.err.println("Error parsing data in line " + dataLineNumber + ". Wrong or empty data.");
             return null;
