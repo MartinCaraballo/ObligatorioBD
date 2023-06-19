@@ -49,7 +49,31 @@ public class SprintResult implements IDataBaseEntity {
         fastestLapTime = aFastestLapTime;
         statusId = aStatusId;
     }
+    public static SprintResult createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
+        for (int i = 0; i < csvLineDataSplitted.length; i++) {
+            csvLineDataSplitted[i] = csvLineDataSplitted[i].replace("\"", "");
+        }
 
+        int resultId = Integer.parseInt(csvLineDataSplitted[0]);
+        int raceId = Integer.parseInt(csvLineDataSplitted[1]);
+        int driverId = Integer.parseInt(csvLineDataSplitted[2]);
+        int constructorId = Integer.parseInt(csvLineDataSplitted[3]);
+        int number = Integer.parseInt(csvLineDataSplitted[4]);
+        int grid = Integer.parseInt(csvLineDataSplitted[5]);
+        int position = Integer.parseInt(csvLineDataSplitted[6]);
+
+        int positionOrder = Integer.parseInt(csvLineDataSplitted[8]);
+        int points = Integer.parseInt(csvLineDataSplitted[9]);
+        int laps = Integer.parseInt(csvLineDataSplitted[10]);
+        String time = csvLineDataSplitted[11];
+        int milliseconds = Integer.parseInt(csvLineDataSplitted[12]);
+        int fastestLap = Integer.parseInt(csvLineDataSplitted[13]);
+        String fastestLapTime = csvLineDataSplitted[14];
+        int statusId = Integer.parseInt(csvLineDataSplitted[15]);
+        return new SprintResult(resultId,raceId,driverId,constructorId,number,grid,position,positionOrder,
+                points,laps,time,milliseconds,fastestLap,fastestLapTime,statusId);
+    }
+ 
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
         String baseQuery = "INSERT INTO Sprint_Results (" +
@@ -88,6 +112,7 @@ public class SprintResult implements IDataBaseEntity {
                 System.err.println("Error getting data to insert.");
             }
         }
+
         return preparedStatement;
     }
 

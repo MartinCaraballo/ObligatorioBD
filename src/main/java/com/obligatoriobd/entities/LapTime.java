@@ -15,16 +15,32 @@ public class LapTime implements IDataBaseEntity {
     private int driverId;
     private int lap;
     private int position;
-    private Time time;
-    private Time milliseconds;
+    private String time;
+    private int milliseconds;
 
-    public LapTime(int aRaceId, int aDriverId, int lapNumber, int aPosition, Time aTime, Time millisecondsValue) {
+    public LapTime(int aRaceId, int aDriverId, int lapNumber, int aPosition, String aTime, int millisecondsValue) {
         raceId = aRaceId;
         driverId = aDriverId;
         lap = lapNumber;
         position = aPosition;
         time = aTime;
         milliseconds = millisecondsValue;
+    }
+    public static LapTime createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
+        for (int i = 0; i < csvLineDataSplitted.length; i++) {
+            csvLineDataSplitted[i] = csvLineDataSplitted[i].replace("\"", "");
+        }
+
+        int raceId = Integer.parseInt(csvLineDataSplitted[0]);
+        int driverId = Integer.parseInt(csvLineDataSplitted[1]);
+
+        int lap = Integer.parseInt(csvLineDataSplitted[3]);
+        int position = Integer.parseInt(csvLineDataSplitted[3]);
+        String time = csvLineDataSplitted[4];
+
+        int milliseconds = Integer.parseInt(csvLineDataSplitted[6]);
+
+        return new LapTime(raceId,driverId,lap,position,time,milliseconds);
     }
 
     @Override
@@ -35,8 +51,8 @@ public class LapTime implements IDataBaseEntity {
         preparedStatement.setInt(2, driverId);
         preparedStatement.setInt(3, lap);
         preparedStatement.setInt(4, position);
-        preparedStatement.setTime(5, time);
-        preparedStatement.setTime(6, milliseconds);
+        preparedStatement.setString(5, time);
+        preparedStatement.setInt(6, milliseconds);
         return preparedStatement;
     }
 

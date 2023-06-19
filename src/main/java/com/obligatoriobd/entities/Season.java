@@ -24,7 +24,7 @@ public class Season implements IDataBaseEntity {
         preparedStatement.setString(2, url);
         return preparedStatement;
     }
-
+  
     /**
      * Method to create a season object from a csv line.
      *
