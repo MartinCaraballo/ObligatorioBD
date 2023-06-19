@@ -70,7 +70,7 @@ public class Circuit implements IDataBaseEntity {
      * @param dataLineNumber      number of the line in the source file to indicate an error if occurred.
      * @return Circuit object if the data given was ok, null if it not does.
      */
-    public static Circuit createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
+    public static Circuit createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
         Integer circuitId = Integer.parseInt(csvLineDataSplitted[0]);
         String circuitRef = csvLineDataSplitted[1].replace("\"", "");
         String name = csvLineDataSplitted[2].replace("\"", "");

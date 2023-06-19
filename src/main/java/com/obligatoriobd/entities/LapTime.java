@@ -7,40 +7,27 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
 
+import static com.obligatoriobd.utils.Convertions.convertToInt;
+import static com.obligatoriobd.utils.Convertions.convertToTime;
+
 public class LapTime implements IDataBaseEntity {
 
     public static final String TABLE_NAME = "Lap_Times";
 
-    private int raceId;
-    private int driverId;
-    private int lap;
-    private int position;
+    private Integer raceId;
+    private Integer driverId;
+    private Integer lap;
+    private Integer position;
     private String time;
-    private int milliseconds;
+    private Integer milliseconds;
 
-    public LapTime(int aRaceId, int aDriverId, int lapNumber, int aPosition, String aTime, int millisecondsValue) {
+    private LapTime(Integer aRaceId, Integer aDriverId, Integer lapNumber, Integer aPosition, String aTime, Integer millisecondsValue) {
         raceId = aRaceId;
         driverId = aDriverId;
         lap = lapNumber;
         position = aPosition;
         time = aTime;
         milliseconds = millisecondsValue;
-    }
-    public static LapTime createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
-        for (int i = 0; i < csvLineDataSplitted.length; i++) {
-            csvLineDataSplitted[i] = csvLineDataSplitted[i].replace("\"", "");
-        }
-
-        int raceId = Integer.parseInt(csvLineDataSplitted[0]);
-        int driverId = Integer.parseInt(csvLineDataSplitted[1]);
-
-        int lap = Integer.parseInt(csvLineDataSplitted[3]);
-        int position = Integer.parseInt(csvLineDataSplitted[3]);
-        String time = csvLineDataSplitted[4];
-
-        int milliseconds = Integer.parseInt(csvLineDataSplitted[6]);
-
-        return new LapTime(raceId,driverId,lap,position,time,milliseconds);
     }
 
     @Override
@@ -54,6 +41,24 @@ public class LapTime implements IDataBaseEntity {
         preparedStatement.setString(5, time);
         preparedStatement.setInt(6, milliseconds);
         return preparedStatement;
+    }
+
+    /**
+     * Method to create a lap time object from a csv line.
+     *
+     * @param csvLineDataSplitted csv line containing the data necessary to create the object.
+     * @param dataLineNumber      number of the line in the source file to indicate an error if occurred.
+     * @return LapTime object if the data given was ok, null if it not does.
+     */
+    public static LapTime createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
+        Integer raceId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
+        Integer driverId = convertToInt(csvLineDataSplitted[1], dataLineNumber);
+        Integer lap = convertToInt(csvLineDataSplitted[3], dataLineNumber);
+        Integer position = convertToInt(csvLineDataSplitted[4], dataLineNumber);
+        String time = csvLineDataSplitted[5].replace("\"", "");
+        Integer milliseconds = convertToInt(csvLineDataSplitted[6], dataLineNumber);
+
+        return new LapTime(raceId, driverId, lap, position, time, milliseconds);
     }
 
 }

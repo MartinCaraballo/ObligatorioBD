@@ -1,14 +1,19 @@
 package com.obligatoriobd.entities;
 
 import com.obligatoriobd.database.IDataBaseEntity;
-import java.lang.reflect.Field;
-import java.sql.*;
 
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+
+import static com.obligatoriobd.utils.Convertions.convertToDouble;
 import static com.obligatoriobd.utils.Convertions.convertToInt;
 
-public class SprintResult implements IDataBaseEntity {
+public class Result implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Sprint_Results";
+    public final String TABLE_NAME = "Results";
 
     private Integer resultId;
     private Integer raceId;
@@ -24,12 +29,15 @@ public class SprintResult implements IDataBaseEntity {
     private String time;
     private Integer milliseconds;
     private Integer fastestLap;
+    private Integer resultRank;
     private String fastestLapTime;
+    private Double fastestLapSpeed;
     private Integer statusId;
 
-    private SprintResult(Integer aResultId, Integer aRaceId, Integer aDriverId, Integer aConstructorId, Integer aNumber, Integer aGridValue, Integer aPosition,
-                        String aPositionText, Integer aPositionOrder, Integer aPointsValue, Integer aLapsValue, String aTime, Integer aMillisecondsValue,
-                         Integer aFastestLap, String aFastestLapTime, Integer aStatusId) {
+    private Result(Integer aResultId, Integer aRaceId, Integer aDriverId, Integer aConstructorId, Integer aNumber,
+                   Integer aGridValue, Integer aPosition, String aPositionText, Integer aPositionOrder, Integer aPointsValue,
+                   Integer aLapsValue, String aTimeValue, Integer aMillisecondsValue, Integer aFastestLap, Integer aResultRank,
+                   String aFastestLapTime, Double aFastestLapSpeed, Integer aStatusId) {
         resultId = aResultId;
         raceId = aRaceId;
         driverId = aDriverId;
@@ -41,16 +49,19 @@ public class SprintResult implements IDataBaseEntity {
         positionOrder = aPositionOrder;
         points = aPointsValue;
         laps = aLapsValue;
-        time = aTime;
+        time = aTimeValue;
         milliseconds = aMillisecondsValue;
         fastestLap = aFastestLap;
+        resultRank = aResultRank;
         fastestLapTime = aFastestLapTime;
+        fastestLapSpeed = aFastestLapSpeed;
         statusId = aStatusId;
     }
- 
+
+
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO Sprint_Results (" +
+        String baseQuery = "INSERT INTO Results (" +
                 "result_id," +
                 "race_id," +
                 "driver_id," +
@@ -65,13 +76,15 @@ public class SprintResult implements IDataBaseEntity {
                 "time," +
                 "milliseconds," +
                 "fastest_lap," +
+                "result_rank," +
                 "fastest_lap_time," +
-                "status_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                "fastest_lap_speed," +
+                "status_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(baseQuery);
-        // Obtaining the data variables of the object.
+        // Get the object data
         Field[] objectData = getClass().getDeclaredFields();
         // Starts in 1 to avoid the static field.
-        for (int i = 1; i < objectData.length; i++) {
+        for (int i = 0; i < objectData.length; i++) {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
@@ -80,24 +93,24 @@ public class SprintResult implements IDataBaseEntity {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
                     preparedStatement.setString(i, (String) actualFieldValue);
+                } else if (actualFieldValue.getClass().equals(Double.class)) {
+                    preparedStatement.setDouble(i, (Double) actualFieldValue);
                 }
-
             } catch (IllegalAccessException illegalAccessException) {
-                System.err.println("Error getting data to insert.");
+                System.err.println("Error getting the data to insert.");
             }
         }
-
         return preparedStatement;
     }
 
     /**
-     * Method to create a sprint result object from a csv line.
+     * Method to create a result object from a csv line.
      *
-     * @param csvLineDataSplitted csv line containing the data necessary to create a sprint result object.
+     * @param csvLineDataSplitted csv line containing the data necessary to create a circuit object.
      * @param dataLineNumber      number of the line in the source file to indicate an error if occurred.
-     * @return SprintResult object if the data given was ok, null if it not does.
+     * @return Result object if the data given was ok, null if it not does.
      */
-    public static SprintResult createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
+    public static Result createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
         Integer resultId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
         Integer raceId = convertToInt(csvLineDataSplitted[1], dataLineNumber);
         Integer driverId = convertToInt(csvLineDataSplitted[2], dataLineNumber);
@@ -112,25 +125,15 @@ public class SprintResult implements IDataBaseEntity {
         String time = csvLineDataSplitted[11].replace("\"", "");
         Integer milliseconds = convertToInt(csvLineDataSplitted[12], dataLineNumber);
         Integer fastestLap = convertToInt(csvLineDataSplitted[13], dataLineNumber);
-        String fastestLapTime = csvLineDataSplitted[14].replace("\"", "");
-        Integer statusId = convertToInt(csvLineDataSplitted[15], dataLineNumber);
-        return new SprintResult(
-                resultId,
-                raceId,
-                driverId,
-                constructorId,
-                number,
-                grid,
-                position,
-                positionText,
-                positionOrder,
-                points,
-                laps,
-                time,
-                milliseconds,
-                fastestLap,
-                fastestLapTime,
-                statusId
+        Integer resultRank = convertToInt(csvLineDataSplitted[14], dataLineNumber);
+        String fastestLapTime = csvLineDataSplitted[15].replace("\"", "");
+        Double fastestLapSpeed = convertToDouble(csvLineDataSplitted[16], dataLineNumber);
+        Integer statusId = convertToInt(csvLineDataSplitted[17], dataLineNumber);
+
+        return new Result(
+                resultId, raceId, driverId, constructorId, number, grid, position, positionText,
+                positionOrder, points, laps, time, milliseconds, fastestLap, resultRank, fastestLapTime,
+                fastestLapSpeed, statusId
         );
     }
 }
