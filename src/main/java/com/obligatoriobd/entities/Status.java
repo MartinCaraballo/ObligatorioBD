@@ -33,8 +33,12 @@ public class Status implements IDataBaseEntity {
      * @param csvLineDataSplitted csv line containing the data necessary to create a status object.
      * @return Status object if the data given was ok, null if it not does.
      */
-    public static Status createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
-        String statusName = csvLineDataSplitted[1].replace("\"", "");
-        return new Status(Integer.parseInt(csvLineDataSplitted[0]), statusName);
+    public static Status createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
+        try {
+            String statusName = csvLineDataSplitted[1].replace("\"", "");
+            return new Status(Integer.parseInt(csvLineDataSplitted[0]), statusName);
+        } catch (NumberFormatException numberFormatException) {
+            throw new NumberFormatException("Error parsing data in line " + dataLineNumber + ". Wrong or empty data.");
+        }
     }
 }

@@ -70,8 +70,8 @@ public class LoadFromCsvCommand {
         for (int i = 1; i < fileLinesData.length; i++) {
             try {
                 String[] lineSplitted = fileLinesData[i].split(",");
-                Method targetMethod = target.getMethod("createFromCsv", String[].class);
-                IDataBaseEntity targetObject = (IDataBaseEntity) targetMethod.invoke(null, (Object) lineSplitted);
+                Method targetMethod = target.getMethod("createFromCsv", String[].class, Integer.class);
+                IDataBaseEntity targetObject = (IDataBaseEntity) targetMethod.invoke(null, lineSplitted, i + 1);
                 DataBaseController dbController = DataBaseController.getDataBaseController();
                 if (dbController == null) {
                     throw new NullPointerException("Data base not found or not connected.");
@@ -96,9 +96,9 @@ public class LoadFromCsvCommand {
     private String getResultMessage(List<String> errors) {
         StringBuilder result = new StringBuilder("Load finalized with (" + errors.size() + ") error(s).");
         if (errors.size() > 0) {
-            result.append('\n').append("The errors are the following:\n\t");
+            result.append('\n').append("The errors are the following:\n");
             errors.forEach(error -> {
-                result.append("* ").append(error).append('\n');
+                result.append("\t* ").append(error).append('\n');
             });
         }
         return result.toString();

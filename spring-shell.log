@@ -66,3 +66,28 @@
 1685822803840:disconnect
 1685822823932:connect root javon jdbc:mysql://localhost:3306/ObligatorioBD
 1685822848039:connect
+1686923638233:load-from-csv seasons ./src/f1-database/seasons.csv
+1686923880694:connect
+1686923892851:load-from-csv seasons ./src/f1-database/seasons.csv
+1686925752339:connect
+1686925765893:load-from-csv circuits ./src/f1-database/circuits.csv
+1686927392002:connect
+1686927405068:load-from-csv drivers ./src/f1-database/drivers.csv
+1686927495263:connect
+1686927512403:load-from-csv drivers ./src/f1-database/drivers.csv
+1686927638910:connect
+1686927640478:load-from-csv drivers ./src/f1-database/drivers.csv
+1686927684337:connect
+1686927685881:load-from-csv drivers ./src/f1-database/drivers.csv
+1686928073440:connect
+1686928078226:load-from-csv drivers ./src/f1-database/drivers.csv
+1686928134144:connect
+1686928136070:load-from-csv drivers ./src/f1-database/drivers.csv
+1686928190071:connect
+1686928191377:load-from-csv drivers ./src/f1-database/drivers.csv
+1686928312497:connect
+1686928314701:load-from-csv drivers ./src/f1-database/drivers.csv
+1686928435351:connect
+1686928439641:load-from-csv drivers ./src/f1-database/drivers.csv
+1686928540828:connect
+1686928542865:load-from-csv drivers ./src/f1-database/drivers.csv

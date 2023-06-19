@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class ConstructorResult implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Constructor_Result";
+    public static final String TABLE_NAME = "Constructor_Results";
 
     private int constructorResultsId;
     private int raceId;

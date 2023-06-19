@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class DriverStanding implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Driver_Standing";
+    public static final String TABLE_NAME = "Driver_Standings";
 
     private int driverStandingsId;
     private int raceId;
