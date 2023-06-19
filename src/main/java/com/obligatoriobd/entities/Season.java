@@ -6,12 +6,12 @@ import java.sql.*;
 
 public class Season implements IDataBaseEntity {
 
-    public static final String TABLE_NAME = "Season";
+    public static final String TABLE_NAME = "Seasons";
 
     private int year;
     private String url;
 
-    public Season(int seasonYear, String seasonInfoURL) {
+    private Season(int seasonYear, String seasonInfoURL) {
         year = seasonYear;
         url = seasonInfoURL;
     }
@@ -24,14 +24,21 @@ public class Season implements IDataBaseEntity {
         preparedStatement.setString(2, url);
         return preparedStatement;
     }
-    public static Season createFromCsv(String[] csvLineDataSplitted) throws NumberFormatException {
-        for (int i = 0; i < csvLineDataSplitted.length; i++) {
-            csvLineDataSplitted[i] = csvLineDataSplitted[i].replace("\"", "");
+  
+    /**
+     * Method to create a season object from a csv line.
+     *
+     * @param csvLineDataSplitted csv line containing the data necessary to create a season object.
+     * @return Season object if the data given was ok, null if it not does.
+     */
+    public static Season createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
+        try {
+            String seasonUrl = csvLineDataSplitted[1].replace("\"", "");
+            return new Season(Integer.parseInt(csvLineDataSplitted[0]), seasonUrl);
+        } catch (NumberFormatException numberFormatException) {
+            throw new NumberFormatException("Error parsing data in line " + dataLineNumber + ". Wrong or empty data.");
         }
 
-        int year = Integer.parseInt(csvLineDataSplitted[0]);
-        String url = csvLineDataSplitted[1];
-
-        return new Season(year,url);
     }
+
 }
