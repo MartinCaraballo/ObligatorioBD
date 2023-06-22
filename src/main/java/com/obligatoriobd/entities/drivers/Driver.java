@@ -22,7 +22,7 @@ public class Driver implements IDataBaseEntity {
     private String nationality;
     private String url;
 
-    public Driver(Integer aDriverId, String aDriverRef, Integer aNumber, String aCode, String aForename, String aSurname, Date aDateOfBirth, String aNationality, String aUrl) {
+    private Driver(Integer aDriverId, String aDriverRef, Integer aNumber, String aCode, String aForename, String aSurname, Date aDateOfBirth, String aNationality, String aUrl) {
         driverId = aDriverId;
         driverRef = aDriverRef;
         number = aNumber;

@@ -25,7 +25,7 @@ public class Circuit implements IDataBaseEntity {
     private Double alt;
     private String url;
 
-    public Circuit(Integer aCircuitId, String aCircuitRef, String aName, String aLocation, String aCountry, Double latValue, Double lngValue, Double altValue, String aUrl) {
+    private Circuit(Integer aCircuitId, String aCircuitRef, String aName, String aLocation, String aCountry, Double latValue, Double lngValue, Double altValue, String aUrl) {
         circuitId = aCircuitId;
         circuitRef = aCircuitRef;
         name = aName;
