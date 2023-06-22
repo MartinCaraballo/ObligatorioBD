@@ -14,6 +14,7 @@ public class LapTime implements IDataBaseEntity {
 
     public static final String TABLE_NAME = "Lap_Times";
 
+    private Integer lapTimeId;
     private Integer raceId;
     private Integer driverId;
     private Integer lap;
@@ -21,7 +22,8 @@ public class LapTime implements IDataBaseEntity {
     private String time;
     private Integer milliseconds;
 
-    private LapTime(Integer aRaceId, Integer aDriverId, Integer lapNumber, Integer aPosition, String aTime, Integer millisecondsValue) {
+    private LapTime(Integer aLapTimeId, Integer aRaceId, Integer aDriverId, Integer lapNumber, Integer aPosition, String aTime, Integer millisecondsValue) {
+        lapTimeId = aLapTimeId;
         raceId = aRaceId;
         driverId = aDriverId;
         lap = lapNumber;
@@ -32,14 +34,15 @@ public class LapTime implements IDataBaseEntity {
 
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO LapTimes (race_id, driver_id, lap, position, time, milliseconds) VALUES (?, ?, ?, ?, ?, ?);";
+        String baseQuery = "INSERT INTO LapTimes (lap_time_id, race_id, driver_id, lap, position, time, milliseconds) VALUES (?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(baseQuery);
-        preparedStatement.setInt(1, raceId);
-        preparedStatement.setInt(2, driverId);
-        preparedStatement.setInt(3, lap);
-        preparedStatement.setInt(4, position);
-        preparedStatement.setString(5, time);
-        preparedStatement.setInt(6, milliseconds);
+        preparedStatement.setInt(1, lapTimeId);
+        preparedStatement.setInt(2, raceId);
+        preparedStatement.setInt(3, driverId);
+        preparedStatement.setInt(4, lap);
+        preparedStatement.setInt(5, position);
+        preparedStatement.setString(6, time);
+        preparedStatement.setInt(7, milliseconds);
         return preparedStatement;
     }
 
@@ -58,7 +61,7 @@ public class LapTime implements IDataBaseEntity {
         String time = csvLineDataSplitted[5].replace("\"", "");
         Integer milliseconds = convertToInt(csvLineDataSplitted[6], dataLineNumber);
 
-        return new LapTime(raceId, driverId, lap, position, time, milliseconds);
+        return new LapTime(dataLineNumber - 1, raceId, driverId, lap, position, time, milliseconds);
     }
 
 }
