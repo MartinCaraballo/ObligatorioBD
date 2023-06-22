@@ -1,23 +1,18 @@
 package com.obligatoriobd.entities;
 
 
-
 import com.obligatoriobd.database.IDataBaseEntity;
-import com.obligatoriobd.utils.Convertions;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 
-import static com.obligatoriobd.utils.Convertions.convertToDouble;
+import static com.obligatoriobd.utils.Convertions.convertToDate;
+import static com.obligatoriobd.utils.Convertions.convertToInt;
 
 
+public class Race implements IDataBaseEntity {
 
-
-public class Race {
-    public static final String TABLE_NAME = "races";
+    public static final String TABLE_NAME = "Races";
 
     private Integer raceId;
     private Integer year;
@@ -67,24 +62,30 @@ public class Race {
                 "fp2_date, fp2_time, fp3_date, fp3_time, qualification_date, qualification_time, sprint_date, sprint_time) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = databaseConnection.prepareStatement(baseQuery);
-        preparedStatement.setInt(1, raceId);
-        preparedStatement.setInt(2, year);
-        preparedStatement.setInt(3, round);
-        preparedStatement.setInt(4, circuitId);
-        preparedStatement.setString(5, name);
-        preparedStatement.setDate(6, date);
-        preparedStatement.setString(7, time);
-        preparedStatement.setString(8, url);
-        preparedStatement.setDate(9, fp1Date);
-        preparedStatement.setString(10, fp1Time);
-        preparedStatement.setDate(11, fp2Date);
-        preparedStatement.setString(12, fp2Time);
-        preparedStatement.setDate(13, fp3Date);
-        preparedStatement.setString(14, fp3Time);
-        preparedStatement.setDate(15, qualificationDate);
-        preparedStatement.setString(16, qualificationTime);
-        preparedStatement.setDate(17, sprintDate);
-        preparedStatement.setString(18, sprintTime);
+        Field[] objectData = getClass().getDeclaredFields();
+        for (int i = 1; i < objectData.length; i++) {
+            try {
+                Object actualFieldValue = objectData[i].get(this);
+                if (actualFieldValue == null) {
+                    switch (i) {
+                        case 7, 10, 12, 14, 16, 18:
+                            preparedStatement.setNull(i, Types.TIME);
+                        case 9, 11, 13, 15, 17:
+                            preparedStatement.setNull(i, Types.DATE);
+                    }
+                } else if (actualFieldValue.getClass().equals(Integer.class)) {
+                    preparedStatement.setInt(i, (int) actualFieldValue);
+                } else if (actualFieldValue.getClass().equals(String.class)) {
+                    preparedStatement.setString(i, (String) actualFieldValue);
+                } else if (actualFieldValue.getClass().equals(Date.class)) {
+                    preparedStatement.setDate(i, (Date) actualFieldValue);
+                } else if (actualFieldValue.getClass().equals(Time.class)) {
+                    preparedStatement.setTime(i, (Time) actualFieldValue);
+                }
+            } catch (IllegalAccessException illegalAccessException) {
+                System.err.println("Error getting data to insert.");
+            }
+        }
 
         return preparedStatement;
     }
@@ -96,11 +97,11 @@ public class Race {
      * @param dataLineNumber      number of the line in the source file to indicate an error if occurred.
      * @return Race object if the data given was ok, null if it does not.
      */
-    public static Race createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
-        Integer raceId = Integer.parseInt(csvLineDataSplitted[0]);
-        Integer year = Integer.parseInt(csvLineDataSplitted[1]);
-        Integer round = Integer.parseInt(csvLineDataSplitted[2]);
-        Integer circuitId = Integer.parseInt(csvLineDataSplitted[3]);
+    public static Race createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
+        Integer raceId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
+        Integer year = convertToInt(csvLineDataSplitted[1], dataLineNumber);
+        Integer round = convertToInt(csvLineDataSplitted[2], dataLineNumber);
+        Integer circuitId = convertToInt(csvLineDataSplitted[3], dataLineNumber);
         String name = csvLineDataSplitted[4].replace("\"", "");
         Date date = convertToDate(csvLineDataSplitted[5], dataLineNumber);
         String time = csvLineDataSplitted[6].replace("\"", "");
@@ -118,26 +119,6 @@ public class Race {
 
         return new Race(raceId, year, round, circuitId, name, date, time, url, fp1Date, fp1Time, fp2Date, fp2Time,
                 fp3Date, fp3Time, qualificationDate, qualificationTime, sprintDate, sprintTime);
-    }
-
-    private static Date convertToDate(String dateStr, Integer dataLineNumber) {
-        // Implement your conversion logic here
-        return null;
-    }
-
-    private static Time convertToTime(String timeStr, Integer dataLineNumber) {
-        // Implement your conversion logic here
-        return null;
-    }
-
-    private static Date convertToDate(String dateStr, Integer dataLineNumber) {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            return dateFormat.parse(dateStr);
-        } catch (ParseException e) {
-            System.err.println("Error parsing date at line " + dataLineNumber + ": " + dateStr);
-            return null;
-        }
     }
 
 }

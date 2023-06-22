@@ -2,15 +2,13 @@ package com.obligatoriobd.entities.constructors;
 
 
 import com.obligatoriobd.database.IDataBaseEntity;
-import com.obligatoriobd.entities.Circuit;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
-import static com.obligatoriobd.utils.Convertions.convertToDouble;
+import static com.obligatoriobd.utils.Convertions.convertToInt;
 
 public class Constructor implements IDataBaseEntity {
 
@@ -22,7 +20,7 @@ public class Constructor implements IDataBaseEntity {
     private String nationality;
     private String url;
 
-    public Constructor(Integer aConstructorId, String aConstructorRef, String aName, String aNationality, String aUrl) {
+    private Constructor(Integer aConstructorId, String aConstructorRef, String aName, String aNationality, String aUrl) {
         constructorId = aConstructorId;
         constructorRef = aConstructorRef;
         name = aName;
@@ -39,14 +37,10 @@ public class Constructor implements IDataBaseEntity {
         for (int i = 1; i < objectData.length; i++) {
             try {
                 Object actualFieldValue = objectData[i].get(this);
-                if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.DOUBLE);
-                } else if (actualFieldValue.getClass().equals(Integer.class)) {
+                if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
                     preparedStatement.setString(i, (String) actualFieldValue);
-                } else if (actualFieldValue.getClass().equals(Double.class)) {
-                    preparedStatement.setDouble(i, (double) actualFieldValue);
                 }
             } catch (IllegalAccessException illegalAccessException) {
                 System.err.println("Error getting data to insert.");
@@ -54,9 +48,17 @@ public class Constructor implements IDataBaseEntity {
         }
         return preparedStatement;
     }
-    public static Constructor createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
 
-        Integer constructorId = Integer.parseInt(csvLineDataSplitted[0]);
+    /**
+     * Method to create a constructor object from a csv line.
+     *
+     * @param csvLineDataSplitted csv line containing the data necessary to create the object.
+     * @param dataLineNumber      number of the line in the source file to indicate an error if occurred.
+     * @return Constructor object if the data given was ok, null if it not does.
+     */
+    public static Constructor createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
+
+        Integer constructorId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
         String constructorRef = csvLineDataSplitted[1].replace("\"", "");
         String name = csvLineDataSplitted[2].replace("\"", "");
         String nationality = csvLineDataSplitted[3].replace("\"", "");
