@@ -25,7 +25,7 @@ public class Circuit implements IDataBaseEntity {
     private Double alt;
     private String url;
 
-    public Circuit(Integer aCircuitId, String aCircuitRef, String aName, String aLocation, String aCountry, Double latValue, Double lngValue, Double altValue, String aUrl) {
+    private Circuit(Integer aCircuitId, String aCircuitRef, String aName, String aLocation, String aCountry, Double latValue, Double lngValue, Double altValue, String aUrl) {
         circuitId = aCircuitId;
         circuitRef = aCircuitRef;
         name = aName;
@@ -70,7 +70,7 @@ public class Circuit implements IDataBaseEntity {
      * @param dataLineNumber      number of the line in the source file to indicate an error if occurred.
      * @return Circuit object if the data given was ok, null if it not does.
      */
-    public static Circuit createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
+    public static Circuit createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
         Integer circuitId = Integer.parseInt(csvLineDataSplitted[0]);
         String circuitRef = csvLineDataSplitted[1].replace("\"", "");
         String name = csvLineDataSplitted[2].replace("\"", "");
