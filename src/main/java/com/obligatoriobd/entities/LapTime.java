@@ -34,7 +34,7 @@ public class LapTime implements IDataBaseEntity {
 
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO LapTimes (lap_time_id, race_id, driver_id, lap, position, time, milliseconds) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String baseQuery = "INSERT INTO Lap_Times (lap_time_id, race_id, driver_id, lap, position, time, milliseconds) VALUES (?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(baseQuery);
         preparedStatement.setInt(1, lapTimeId);
         preparedStatement.setInt(2, raceId);
@@ -56,10 +56,10 @@ public class LapTime implements IDataBaseEntity {
     public static LapTime createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
         Integer raceId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
         Integer driverId = convertToInt(csvLineDataSplitted[1], dataLineNumber);
-        Integer lap = convertToInt(csvLineDataSplitted[3], dataLineNumber);
-        Integer position = convertToInt(csvLineDataSplitted[4], dataLineNumber);
-        String time = csvLineDataSplitted[5].replace("\"", "");
-        Integer milliseconds = convertToInt(csvLineDataSplitted[6], dataLineNumber);
+        Integer lap = convertToInt(csvLineDataSplitted[2], dataLineNumber);
+        Integer position = convertToInt(csvLineDataSplitted[3], dataLineNumber);
+        String time = csvLineDataSplitted[4].replace("\"", "");
+        Integer milliseconds = convertToInt(csvLineDataSplitted[5], dataLineNumber);
 
         return new LapTime(dataLineNumber - 1, raceId, driverId, lap, position, time, milliseconds);
     }

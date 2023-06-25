@@ -38,10 +38,10 @@ CREATE TABLE Drivers(
 
 CREATE TABLE Constructors(
     constructor_id int primary key,
-    constructor_ref varchar(20),
+    constructor_ref varchar(30),
     name varchar(20),
     nationality varchar(15),
-    url varchar(60)
+    url varchar(80)
 );
 
 CREATE TABLE Races (
@@ -74,7 +74,7 @@ CREATE TABLE Lap_Times(
     driver_id int,
     lap int,
     position int,
-    time varchar(10),
+    time varchar(15),
     milliseconds int,
 
     FOREIGN KEY (race_id) REFERENCES Races(race_id),

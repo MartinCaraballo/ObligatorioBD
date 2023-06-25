@@ -53,7 +53,7 @@ public class DataBaseController {
         throw new IllegalAccessException("The new database is unreachable. Connection was not changed.");
     }
 
-    private Boolean testConnection() {
+    public Boolean testConnection() {
         try {
             Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
             connection.close();
@@ -95,7 +95,7 @@ public class DataBaseController {
      * @return              String with the response.
      * @throws SQLException If some error occur in the process.
      */
-    public String getQueryResult(ResultSet resultSet) throws SQLException {
+    private String getQueryResult(ResultSet resultSet) throws SQLException {
         StringBuilder queryResult = new StringBuilder();
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         int columnCount = resultSetMetaData.getColumnCount();
@@ -109,7 +109,11 @@ public class DataBaseController {
         while (resultSet.next()) {
             for (int i = 1; i <= columnCount; i++) {
                 String value = resultSet.getString(i);
-                queryResult.append(value.trim());
+                if (value == null) {
+                    queryResult.append("null");
+                } else {
+                    queryResult.append(value.trim());
+                }
                 if (i < columnCount) {
                     queryResult.append(", ");
                 }

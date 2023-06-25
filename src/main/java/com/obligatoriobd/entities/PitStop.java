@@ -37,7 +37,7 @@ public class PitStop implements IDataBaseEntity {
 
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO PitStops (pit_stop_id, race_id, driver_id, stop, lap, time, duration, milliseconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        String baseQuery = "INSERT INTO Pit_Stops (pit_stop_id, race_id, driver_id, stop, lap, time, duration, milliseconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(baseQuery);
         // Obtaining the data variables of the object.
         Field[] objectData = getClass().getDeclaredFields();

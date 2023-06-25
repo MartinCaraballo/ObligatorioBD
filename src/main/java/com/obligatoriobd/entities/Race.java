@@ -6,8 +6,7 @@ import com.obligatoriobd.database.IDataBaseEntity;
 import java.lang.reflect.Field;
 import java.sql.*;
 
-import static com.obligatoriobd.utils.Convertions.convertToDate;
-import static com.obligatoriobd.utils.Convertions.convertToInt;
+import static com.obligatoriobd.utils.Convertions.*;
 
 
 public class Race implements IDataBaseEntity {
@@ -20,22 +19,22 @@ public class Race implements IDataBaseEntity {
     private Integer circuitId;
     private String name;
     private Date date;
-    private String time;
+    private Time time;
     private String url;
     private Date fp1Date;
-    private String fp1Time;
+    private Time fp1Time;
     private Date fp2Date;
-    private String fp2Time;
+    private Time fp2Time;
     private Date fp3Date;
-    private String fp3Time;
+    private Time fp3Time;
     private Date qualificationDate;
-    private String qualificationTime;
+    private Time qualificationTime;
     private Date sprintDate;
-    private String sprintTime;
+    private Time sprintTime;
 
-    public Race(Integer raceId, Integer year, Integer round, Integer circuitId, String name, Date date, String time,
-                String url, Date fp1Date, String fp1Time, Date fp2Date, String fp2Time, Date fp3Date, String fp3Time,
-                Date qualificationDate, String qualificationTime, Date sprintDate, String sprintTime) {
+    public Race(Integer raceId, Integer year, Integer round, Integer circuitId, String name, Date date, Time time,
+                String url, Date fp1Date, Time fp1Time, Date fp2Date, Time fp2Time, Date fp3Date, Time fp3Time,
+                Date qualificationDate, Time qualificationTime, Date sprintDate, Time sprintTime) {
         this.raceId = raceId;
         this.year = year;
         this.round = round;
@@ -58,9 +57,9 @@ public class Race implements IDataBaseEntity {
 
     @Override
     public PreparedStatement getInsertStatement(Connection databaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO races (race_id, year, round, circuit_id, name, date, time, url, fp1_date, fp1_time, " +
+        String baseQuery = "INSERT INTO Races (race_id, year, round, circuit_id, name, date, time, url, fp1_date, fp1_time, " +
                 "fp2_date, fp2_time, fp3_date, fp3_time, qualification_date, qualification_time, sprint_date, sprint_time) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = databaseConnection.prepareStatement(baseQuery);
         Field[] objectData = getClass().getDeclaredFields();
         for (int i = 1; i < objectData.length; i++) {
@@ -104,18 +103,18 @@ public class Race implements IDataBaseEntity {
         Integer circuitId = convertToInt(csvLineDataSplitted[3], dataLineNumber);
         String name = csvLineDataSplitted[4].replace("\"", "");
         Date date = convertToDate(csvLineDataSplitted[5], dataLineNumber);
-        String time = csvLineDataSplitted[6].replace("\"", "");
+        Time time = convertToTime(csvLineDataSplitted[6], dataLineNumber);
         String url = csvLineDataSplitted[7].replace("\"", "");
         Date fp1Date = convertToDate(csvLineDataSplitted[8], dataLineNumber);
-        String fp1Time = csvLineDataSplitted[9].replace("\"", "");
+        Time fp1Time = convertToTime(csvLineDataSplitted[9], dataLineNumber);
         Date fp2Date = convertToDate(csvLineDataSplitted[10], dataLineNumber);
-        String fp2Time = csvLineDataSplitted[11].replace("\"", "");
+        Time fp2Time = convertToTime(csvLineDataSplitted[11], dataLineNumber);
         Date fp3Date = convertToDate(csvLineDataSplitted[12], dataLineNumber);
-        String fp3Time = csvLineDataSplitted[13].replace("\"", "");
+        Time fp3Time = convertToTime(csvLineDataSplitted[13], dataLineNumber);
         Date qualificationDate = convertToDate(csvLineDataSplitted[14], dataLineNumber);
-        String qualificationTime = csvLineDataSplitted[15].replace("\"", "");
+        Time qualificationTime = convertToTime(csvLineDataSplitted[15], dataLineNumber);
         Date sprintDate = convertToDate(csvLineDataSplitted[16], dataLineNumber);
-        String sprintTime = csvLineDataSplitted[17].replace("\"", "");
+        Time sprintTime = convertToTime(csvLineDataSplitted[17], dataLineNumber);
 
         return new Race(raceId, year, round, circuitId, name, date, time, url, fp1Date, fp1Time, fp2Date, fp2Time,
                 fp3Date, fp3Time, qualificationDate, qualificationTime, sprintDate, sprintTime);
