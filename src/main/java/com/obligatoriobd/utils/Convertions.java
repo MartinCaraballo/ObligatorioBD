@@ -43,7 +43,7 @@ public class Convertions {
      */
     public static Time convertToTime(String time, int dataLineNumber) {
         try {
-            return Time.valueOf(time);
+            return Time.valueOf(time.replace("\"", ""));
         } catch (IllegalArgumentException illegalArgumentException) {
             System.err.println("Error parsing data in line " + dataLineNumber + ". Wrong or empty data.");
             return null;
@@ -58,7 +58,7 @@ public class Convertions {
      */
     public static Date convertToDate(String date, int dataLineNumber) {
         try {
-            return Date.valueOf(date);
+            return Date.valueOf(date.replace("\"", ""));
         } catch (IllegalArgumentException illegalArgumentException) {
             System.err.println("Error parsing data in line " + dataLineNumber + ". Wrong or empty data.");
             return null;

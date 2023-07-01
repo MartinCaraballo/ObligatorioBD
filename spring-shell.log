@@ -91,3 +91,103 @@
 1686928439641:load-from-csv drivers ./src/f1-database/drivers.csv
 1686928540828:connect
 1686928542865:load-from-csv drivers ./src/f1-database/drivers.csv
+1687452568502:connect
+1687452583948:load-from-csv status ./src/f1-database/status.csv
+1687452604339:load-from-csv seasons ./src/f1-database/seasons.csv
+1687452662383:load-from-csv circuits ./src/f1-database/circuits.csv
+1687452730078:load-from-csv drivers ./src/f1-database/drivers.csv
+1687452780248:load-from-csv constructors ./src/f1-database/constructors.csv
+1687452977798:load-from-csv races ./src/f1-database/races.csv
+1687453138447:connect
+1687453148800:load-from-csv races ./src/f1-database/races.csv
+1687453210547:connect
+1687453215164:load-from-csv races ./src/f1-database/races.csv
+1687453745333:connect
+1687453749283:load-from-csv races ./src/f1-database/races.csv
+1687453793375:connect
+1687453797646:load-from-csv races ./src/f1-database/races.csv
+1687453910053:connect
+1687453916114:load-from-csv races ./src/f1-database/races.csv
+1687453987053:connect
+1687453991245:load-from-csv races ./src/f1-database/races.csv
+1687454258849:connect
+1687454278777:load-from-csv races ./src/f1-database/races.csv
+1687454638152:load-from-csv drivers ./src/f1-database/drivers.csv
+1687454742071:connect
+1687454747998:load-from-csv drivers ./src/f1-database/drivers.csv
+1687455388714:load-from-csv pit_stops ./src/f1-database/pit_stops.csv
+1687455496228:connect
+1687455497856:load-from-csv pit_stops ./src/f1-database/pit_stops.csv
+1687455697783:load-from-csv qualifying ./src/f1-database/qualifying.csv
+1687455918493:load-from-csv results ./src/f1-database/results.csv
+1687455987911:load-from-csv Results ./src/f1-database/results.csv
+1687456031295:connect
+1687456038837:load-from-csv results ./src/f1-database/results.csv
+1687456139589:connect
+1687456145457:load-from-csv results ./src/f1-database/results.csv
+1687456459678:connect
+1687456472046:load-from-csv results ./src/f1-database/results.csv
+1687456564623:connect
+1687456572023:load-from-csv results ./src/f1-database/results.csv
+1687457257161:connect
+1687457272203:laod-from-csv results ./src/f1-database/results.csv
+1687457305407:load-from-csv results ./src/f1-database/results.csv
+1687457915538:load-from-csv sprint_results ./src/f1-database/sprint_results.csv
+1687457949952:load-from-csv driver_standings ./src/f1-database/driver_standings.csv
+1687458290045:connect
+1687458316232:load-from-csv driver_standings ./src/f1-database/driver_standings.csv
+1687534783652:connect
+1687534917423:load-from-csv constructor_results ./src/f1-database/constuctor_results.csv
+1687534974247:load-from-csv constructor_results ./src/f1-database/constructor_results.csv
+1687535209313:load-from-csv constructor_standings ./src/f1-database/constructor_standings.csv
+1687535448208:load-from-csv lap_times ./src/f1-database/lap_times.csv
+1687535565606:connect
+1687535586544:load-from-csv lap_times ./src/f1-database/lap_times.csv
+1687535774886:connnect
+1687535777695:connect
+1687535783534:load-from-csv lap_times ./src/f1-database/lap_times.csv
+1687614192650:connect
+1687614198632:load-from-csv lap_times ./src/f1-database/lap_times.csv
+1687625258795:help
+1687657964788:SELECT forename, surname, COUNT(*) AS appearances
+1687657964802:FROM (
+1687657964858:) AS subquery
+1687657964860:WHERE row_num = 1
+1687657964864:GROUP BY forename, surname
+1687657989315:ORDER BY appearances DESC;select * from Drivers
+1687658007648:select * from Drivers
+1687658290780:select a a a a a a a a
+1687659350662:help
+1687659356105:connect
+1687659359562:test-connection
+1687659367312:get-answer 1
+1687659426410:connect
+1687659429660:test-connection
+1687659434037:get-answer 1
+1687659453078:connect
+1687659456279:get-answer 1
+1687659483790:connect
+1687659486854:get-answer 1
+1687659492434:get-asnwer 2
+1687659495801:get-answer 2
+1687659505272:get-answer 3
+1687659566188:connect
+1687659569145:get-answer 3
+1687659572893:get-answer 4
+1687659581848:get-answer 5
+1687659591723:get-answer 6
+1687659598090:get-answer 7
+1687659602799:get-answer 8
+1687659608421:help
+1687659629456:send-select "SELECT * FROM Drivers;"
+1687659649621:send-select SELECT * FROM Drivers
+1687659672896:send-select SELECT
+1687659688011:send-select-query SELECT * FROM Drivers
+1687659700893:send-select-query SELECT * FROM Drivers;
+1687659711298:send-select-query SELECT * FROM Drivers
+1687659725023:connect
+1687659730833:send-select-query "SELECT * FROM Drivers"
+1687659810225:connect
+1687659811712:send-select-query "SELECT * FROM Drivers"
+1687660099512:connect
+1687660100492:send-select-query "SELECT * FROM Drivers"

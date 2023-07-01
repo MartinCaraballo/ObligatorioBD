@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import static com.obligatoriobd.utils.Convertions.convertToDouble;
+import static com.obligatoriobd.utils.Convertions.convertToInt;
 
 public class ConstructorStanding implements IDataBaseEntity {
 
@@ -23,7 +24,7 @@ public class ConstructorStanding implements IDataBaseEntity {
     private String positionText;
     private Integer wins;
 
-    public ConstructorStanding(Integer id, Integer aRaceId, Integer aConstructorId, Integer pointsValue, Integer aPosition, String apositionText, Integer winsValue) {
+    private ConstructorStanding(Integer id, Integer aRaceId, Integer aConstructorId, Integer pointsValue, Integer aPosition, String apositionText, Integer winsValue) {
         constructorStandingsId = id;
         raceId = aRaceId;
         constructorId = aConstructorId;
@@ -44,13 +45,11 @@ public class ConstructorStanding implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.DOUBLE);
+                    preparedStatement.setNull(i, Types.INTEGER);
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
                     preparedStatement.setString(i, (String) actualFieldValue);
-                } else if (actualFieldValue.getClass().equals(Double.class)) {
-                    preparedStatement.setDouble(i, (double) actualFieldValue);
                 }
             } catch (IllegalAccessException illegalAccessException) {
                 System.err.println("Error getting data to insert.");
@@ -58,15 +57,22 @@ public class ConstructorStanding implements IDataBaseEntity {
         }
         return preparedStatement;
     }
-    public static ConstructorStanding createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
-        Integer constructorStandingsId = Integer.parseInt(csvLineDataSplitted[0]);
-        Integer raceId = Integer.parseInt(csvLineDataSplitted[1]);
-        Integer constructorId = Integer.parseInt(csvLineDataSplitted[2]);
-        Integer points = Integer.parseInt(csvLineDataSplitted[3]);
-        Integer position = Integer.parseInt(csvLineDataSplitted[4]);
 
+    /**
+     * Method to create a constructor standing object from a csv line.
+     *
+     * @param csvLineDataSplitted csv line containing the data necessary to create the object.
+     * @param dataLineNumber      number of the line in the source file to indicate an error if occurred.
+     * @return ConstructorStanding object if the data given was ok, null if it not does.
+     */
+    public static ConstructorStanding createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
+        Integer constructorStandingsId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
+        Integer raceId = convertToInt(csvLineDataSplitted[1], dataLineNumber);
+        Integer constructorId = convertToInt(csvLineDataSplitted[2], dataLineNumber);
+        Integer points = convertToInt(csvLineDataSplitted[3], dataLineNumber);
+        Integer position = convertToInt(csvLineDataSplitted[4], dataLineNumber);
         String positionText = csvLineDataSplitted[5].replace("\"", "");
-        Integer wins = Integer.parseInt(csvLineDataSplitted[6]);
+        Integer wins = convertToInt(csvLineDataSplitted[6], dataLineNumber);
 
 
         return new ConstructorStanding(constructorStandingsId, raceId, constructorId, points, position, positionText, wins);

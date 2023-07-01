@@ -53,4 +53,14 @@ public class DataBaseCommands {
             return connectionError.getMessage();
         }
     }
+
+    @ShellMethod(value = "Test the connection with the database.")
+    public String testConnection() {
+        DataBaseController dbController = DataBaseController.getDataBaseController();
+        if (dbController == null) {
+            return "Data base not found or not connected.";
+        }
+        boolean result = dbController.testConnection();
+        return result ? "Connection OK" : "Connection FAIL, re-connect.";
+    }
 }

@@ -15,6 +15,7 @@ public class PitStop implements IDataBaseEntity {
 
     public static final String TABLE_NAME = "Pit_Stops";
 
+    private Integer pitStopId;
     private Integer raceId;
     private Integer driverId;
     private Integer stop;
@@ -23,7 +24,8 @@ public class PitStop implements IDataBaseEntity {
     private String duration;
     private Integer milliseconds;
 
-    private PitStop(Integer aRaceId, Integer aDriverId, Integer aStopNumber, Integer aLapNumber, Time aTime, String aDuration, Integer millisecondsValue) {
+    private PitStop(Integer aPitStopId, Integer aRaceId, Integer aDriverId, Integer aStopNumber, Integer aLapNumber, Time aTime, String aDuration, Integer millisecondsValue) {
+        pitStopId = aPitStopId;
         raceId = aRaceId;
         driverId = aDriverId;
         stop = aStopNumber;
@@ -35,7 +37,7 @@ public class PitStop implements IDataBaseEntity {
 
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO PitStops (race_id, driver_id, stop, lap, time, duration, milliseconds) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String baseQuery = "INSERT INTO Pit_Stops (pit_stop_id, race_id, driver_id, stop, lap, time, duration, milliseconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(baseQuery);
         // Obtaining the data variables of the object.
         Field[] objectData = getClass().getDeclaredFields();
@@ -74,7 +76,7 @@ public class PitStop implements IDataBaseEntity {
         String duration = csvLineDataSplitted[5].replace("\"", "");
         Integer milliseconds = convertToInt(csvLineDataSplitted[6], dataLineNumber);
 
-        return new PitStop(raceId, driverId, stop, lap, time, duration, milliseconds);
+        return new PitStop(dataLineNumber - 1, raceId, driverId, stop, lap, time, duration, milliseconds);
     }
 
 }

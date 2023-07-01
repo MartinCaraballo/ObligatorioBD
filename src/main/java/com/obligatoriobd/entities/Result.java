@@ -13,7 +13,7 @@ import static com.obligatoriobd.utils.Convertions.convertToInt;
 
 public class Result implements IDataBaseEntity {
 
-    public final String TABLE_NAME = "Results";
+    public static final String TABLE_NAME = "Results";
 
     private Integer resultId;
     private Integer raceId;
@@ -84,7 +84,7 @@ public class Result implements IDataBaseEntity {
         // Get the object data
         Field[] objectData = getClass().getDeclaredFields();
         // Starts in 1 to avoid the static field.
-        for (int i = 0; i < objectData.length; i++) {
+        for (int i = 1; i < objectData.length; i++) {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
@@ -127,7 +127,7 @@ public class Result implements IDataBaseEntity {
         Integer fastestLap = convertToInt(csvLineDataSplitted[13], dataLineNumber);
         Integer resultRank = convertToInt(csvLineDataSplitted[14], dataLineNumber);
         String fastestLapTime = csvLineDataSplitted[15].replace("\"", "");
-        Double fastestLapSpeed = convertToDouble(csvLineDataSplitted[16], dataLineNumber);
+        Double fastestLapSpeed = convertToDouble(csvLineDataSplitted[16].replace("\"", ""), dataLineNumber);
         Integer statusId = convertToInt(csvLineDataSplitted[17], dataLineNumber);
 
         return new Result(

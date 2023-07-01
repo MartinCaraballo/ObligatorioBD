@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import static com.obligatoriobd.utils.Convertions.convertToInt;
+
 public class ConstructorResult implements IDataBaseEntity {
 
     public static final String TABLE_NAME = "Constructor_Results";
@@ -18,7 +20,7 @@ public class ConstructorResult implements IDataBaseEntity {
     private Integer points;
     private String status;
 
-    public ConstructorResult(Integer aConstructorResultId, Integer aRaceId, Integer aConstructorId, Integer pointsValue, String aStatusLetter) {
+    private ConstructorResult(Integer aConstructorResultId, Integer aRaceId, Integer aConstructorId, Integer pointsValue, String aStatusLetter) {
         constructorResultsId = aConstructorResultId;
         raceId = aRaceId;
         constructorId = aConstructorId;
@@ -29,7 +31,7 @@ public class ConstructorResult implements IDataBaseEntity {
 
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO Constructor_Results (constructor_results_id, race_id, constructor_id, points, status) VALUES(?, ?, ?, ?, ?)";
+        String baseQuery = "INSERT INTO Constructor_Results (constructor_results_id, race_id, constructor_id, points, status)VALUES(?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(baseQuery);
         Field[] objectData = getClass().getDeclaredFields();
         // Starts in 1 to avoid the static field.
@@ -37,13 +39,11 @@ public class ConstructorResult implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.DOUBLE);
+                    preparedStatement.setNull(i, Types.INTEGER);
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
                     preparedStatement.setString(i, (String) actualFieldValue);
-                } else if (actualFieldValue.getClass().equals(Double.class)) {
-                    preparedStatement.setDouble(i, (double) actualFieldValue);
                 }
             } catch (IllegalAccessException illegalAccessException) {
                 System.err.println("Error getting data to insert.");
@@ -52,13 +52,11 @@ public class ConstructorResult implements IDataBaseEntity {
         return preparedStatement;
     }
     public static ConstructorResult createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) throws NumberFormatException {
-        Integer constructorResultsId = Integer.parseInt(csvLineDataSplitted[0]);
-        Integer raceId = Integer.parseInt(csvLineDataSplitted[1]);
-        Integer constructorId = Integer.parseInt(csvLineDataSplitted[2]);
-        Integer points = Integer.parseInt(csvLineDataSplitted[3]);
+        Integer constructorResultsId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
+        Integer raceId = convertToInt(csvLineDataSplitted[1], dataLineNumber);
+        Integer constructorId = convertToInt(csvLineDataSplitted[2], dataLineNumber);
+        Integer points = convertToInt(csvLineDataSplitted[3], dataLineNumber);
         String status = csvLineDataSplitted[4].replace("\"", "");
-
-
 
         return new ConstructorResult(constructorResultsId, raceId, constructorId, points,status );
     }

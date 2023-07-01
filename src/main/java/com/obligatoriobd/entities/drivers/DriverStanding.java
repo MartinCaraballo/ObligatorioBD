@@ -3,10 +3,8 @@ package com.obligatoriobd.entities.drivers;
 import com.obligatoriobd.database.IDataBaseEntity;
 import com.obligatoriobd.entities.PitStop;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.lang.reflect.Field;
+import java.sql.*;
 
 import static com.obligatoriobd.utils.Convertions.convertToInt;
 import static com.obligatoriobd.utils.Convertions.convertToTime;
@@ -35,15 +33,23 @@ public class DriverStanding implements IDataBaseEntity {
 
     @Override
     public PreparedStatement getInsertStatement(Connection dataBaseConnection) throws SQLException {
-        String baseQuery = "INSERT INTO DriverStandings (driver_standings_id, race_id, driver_id, points, position, position_text, wins) VALUES(?, ?, ?, ?, ?, ?, ?);";
+        String baseQuery = "INSERT INTO Driver_Standings (driver_standings_id, race_id, driver_id, points, position, position_text, wins) VALUES(?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(baseQuery);
-        preparedStatement.setInt(1, driverStandingsId);
-        preparedStatement.setInt(2, raceId);
-        preparedStatement.setInt(3, driverId);
-        preparedStatement.setInt(4, points);
-        preparedStatement.setInt(5, position);
-        preparedStatement.setString(6, positionText);
-        preparedStatement.setInt(7, wins);
+        Field[] objectData = getClass().getDeclaredFields();
+        for (int i = 1; i < objectData.length; i++) {
+            try {
+                Object actualFieldValue = objectData[i].get(this);
+                if (actualFieldValue == null) {
+                    preparedStatement.setNull(i, Types.INTEGER);
+                } else if (actualFieldValue.getClass().equals(Integer.class)) {
+                    preparedStatement.setInt(i, (int) actualFieldValue);
+                } else if (actualFieldValue.getClass().equals(String.class)) {
+                    preparedStatement.setString(i, (String) actualFieldValue);
+                }
+            } catch (IllegalAccessException illegalAccessException) {
+                System.err.println("Error getting data to insert.");
+            }
+        }
         return preparedStatement;
     }
 
