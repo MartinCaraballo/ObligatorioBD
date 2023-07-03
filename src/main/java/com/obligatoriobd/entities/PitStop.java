@@ -3,13 +3,9 @@ package com.obligatoriobd.entities;
 import com.obligatoriobd.database.IDataBaseEntity;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
 
-import static com.obligatoriobd.utils.Convertions.convertToInt;
-import static com.obligatoriobd.utils.Convertions.convertToTime;
+import static com.obligatoriobd.utils.Convertions.*;
 
 public class PitStop implements IDataBaseEntity {
 
@@ -46,7 +42,11 @@ public class PitStop implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue.getClass().equals(Integer.class)) {
-                    preparedStatement.setInt(i, (int) actualFieldValue);
+                    if (i == 7) {
+                        preparedStatement.setNull(i, Types.VARCHAR);
+                    } else {
+                        preparedStatement.setInt(i, (int) actualFieldValue);
+                    }
                 } else if (actualFieldValue.getClass().equals(String.class)) {
                     preparedStatement.setString(i, (String) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(Time.class)) {
@@ -73,7 +73,7 @@ public class PitStop implements IDataBaseEntity {
         Integer stop = convertToInt(csvLineDataSplitted[2], dataLineNumber);
         Integer lap = convertToInt(csvLineDataSplitted[3], dataLineNumber);
         Time time = convertToTime(csvLineDataSplitted[4], dataLineNumber);
-        String duration = csvLineDataSplitted[5].replace("\"", "");
+        String duration = returnStringOrNull(csvLineDataSplitted[5].replace("\"", ""), dataLineNumber);
         Integer milliseconds = convertToInt(csvLineDataSplitted[6], dataLineNumber);
 
         return new PitStop(dataLineNumber - 1, raceId, driverId, stop, lap, time, duration, milliseconds);

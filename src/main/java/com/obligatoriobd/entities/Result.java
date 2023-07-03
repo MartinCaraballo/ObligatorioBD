@@ -8,8 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import static com.obligatoriobd.utils.Convertions.convertToDouble;
-import static com.obligatoriobd.utils.Convertions.convertToInt;
+import static com.obligatoriobd.utils.Convertions.*;
 
 public class Result implements IDataBaseEntity {
 
@@ -88,7 +87,10 @@ public class Result implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.INTEGER);
+                    switch (i) {
+                        case 8, 12, 16 -> preparedStatement.setNull(i, Types.VARCHAR);
+                        default -> preparedStatement.setNull(i, Types.INTEGER);
+                    }
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
@@ -118,15 +120,15 @@ public class Result implements IDataBaseEntity {
         Integer number = convertToInt(csvLineDataSplitted[4], dataLineNumber);
         Integer grid = convertToInt(csvLineDataSplitted[5], dataLineNumber);
         Integer position = convertToInt(csvLineDataSplitted[6], dataLineNumber);
-        String positionText = csvLineDataSplitted[7].replace("\"", "");
+        String positionText = returnStringOrNull(csvLineDataSplitted[7].replace("\"", ""), dataLineNumber);
         Integer positionOrder = convertToInt(csvLineDataSplitted[8], dataLineNumber);
         Integer points = convertToInt(csvLineDataSplitted[9], dataLineNumber);
         Integer laps = convertToInt(csvLineDataSplitted[10], dataLineNumber);
-        String time = csvLineDataSplitted[11].replace("\"", "");
+        String time = returnStringOrNull(csvLineDataSplitted[11].replace("\"", ""), dataLineNumber);
         Integer milliseconds = convertToInt(csvLineDataSplitted[12], dataLineNumber);
         Integer fastestLap = convertToInt(csvLineDataSplitted[13], dataLineNumber);
         Integer resultRank = convertToInt(csvLineDataSplitted[14], dataLineNumber);
-        String fastestLapTime = csvLineDataSplitted[15].replace("\"", "");
+        String fastestLapTime = returnStringOrNull(csvLineDataSplitted[15].replace("\"", ""), dataLineNumber);
         Double fastestLapSpeed = convertToDouble(csvLineDataSplitted[16].replace("\"", ""), dataLineNumber);
         Integer statusId = convertToInt(csvLineDataSplitted[17], dataLineNumber);
 

@@ -8,8 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import static com.obligatoriobd.utils.Convertions.convertToDouble;
-import static com.obligatoriobd.utils.Convertions.convertToInt;
+import static com.obligatoriobd.utils.Convertions.*;
 
 public class Qualifying implements IDataBaseEntity {
 
@@ -49,7 +48,10 @@ public class Qualifying implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.INTEGER);
+                    switch (i) {
+                        case 7, 8, 9 -> preparedStatement.setNull(i, Types.VARCHAR);
+                        default -> preparedStatement.setNull(i, Types.INTEGER);
+                    }
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
@@ -76,9 +78,9 @@ public class Qualifying implements IDataBaseEntity {
         Integer constructorId = convertToInt(csvLineDataSplitted[3], dataLineNumber);
         Integer number = convertToInt(csvLineDataSplitted[4], dataLineNumber);
         Integer position = convertToInt(csvLineDataSplitted[5], dataLineNumber);
-        String q1 = csvLineDataSplitted[6].replace("\"", "");
-        String q2 = csvLineDataSplitted[7].replace("\"", "");
-        String q3 = csvLineDataSplitted[8].replace("\"", "");
+        String q1 = returnStringOrNull(csvLineDataSplitted[6].replace("\"", ""), dataLineNumber);
+        String q2 = returnStringOrNull(csvLineDataSplitted[7].replace("\"", ""), dataLineNumber);
+        String q3 = returnStringOrNull(csvLineDataSplitted[8].replace("\"", ""), dataLineNumber);
 
         return new Qualifying(qualifyId, raceId, driverId, constructorId, number, position, q1, q2, q3);
     }

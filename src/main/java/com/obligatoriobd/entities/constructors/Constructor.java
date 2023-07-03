@@ -7,8 +7,10 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import static com.obligatoriobd.utils.Convertions.convertToInt;
+import static com.obligatoriobd.utils.Convertions.returnStringOrNull;
 
 public class Constructor implements IDataBaseEntity {
 
@@ -37,7 +39,9 @@ public class Constructor implements IDataBaseEntity {
         for (int i = 1; i < objectData.length; i++) {
             try {
                 Object actualFieldValue = objectData[i].get(this);
-                if (actualFieldValue.getClass().equals(Integer.class)) {
+                if (actualFieldValue == null) {
+                    preparedStatement.setNull(i, Types.VARCHAR);
+                } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
                     preparedStatement.setString(i, (String) actualFieldValue);
@@ -59,10 +63,10 @@ public class Constructor implements IDataBaseEntity {
     public static Constructor createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
 
         Integer constructorId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
-        String constructorRef = csvLineDataSplitted[1].replace("\"", "");
-        String name = csvLineDataSplitted[2].replace("\"", "");
-        String nationality = csvLineDataSplitted[3].replace("\"", "");
-        String url = csvLineDataSplitted[4].replace("\"", "");
+        String constructorRef = returnStringOrNull(csvLineDataSplitted[1].replace("\"", ""), dataLineNumber);
+        String name = returnStringOrNull(csvLineDataSplitted[2].replace("\"", ""), dataLineNumber);
+        String nationality = returnStringOrNull(csvLineDataSplitted[3].replace("\"", ""), dataLineNumber);
+        String url = returnStringOrNull(csvLineDataSplitted[4].replace("\"", ""), dataLineNumber);
 
         return new Constructor (constructorId, constructorRef, name, nationality, url);
     }

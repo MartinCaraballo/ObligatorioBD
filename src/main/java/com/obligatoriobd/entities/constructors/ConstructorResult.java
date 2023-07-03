@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import static com.obligatoriobd.utils.Convertions.convertToInt;
+import static com.obligatoriobd.utils.Convertions.returnStringOrNull;
 
 public class ConstructorResult implements IDataBaseEntity {
 
@@ -39,7 +40,11 @@ public class ConstructorResult implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.INTEGER);
+                    if (i == 5) {
+                        preparedStatement.setNull(i, Types.VARCHAR);
+                    } else {
+                        preparedStatement.setNull(i, Types.INTEGER);
+                    }
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
@@ -56,7 +61,7 @@ public class ConstructorResult implements IDataBaseEntity {
         Integer raceId = convertToInt(csvLineDataSplitted[1], dataLineNumber);
         Integer constructorId = convertToInt(csvLineDataSplitted[2], dataLineNumber);
         Integer points = convertToInt(csvLineDataSplitted[3], dataLineNumber);
-        String status = csvLineDataSplitted[4].replace("\"", "");
+        String status = returnStringOrNull(csvLineDataSplitted[4].replace("\"", ""), dataLineNumber);
 
         return new ConstructorResult(constructorResultsId, raceId, constructorId, points,status );
     }

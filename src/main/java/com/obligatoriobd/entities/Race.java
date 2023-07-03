@@ -67,10 +67,9 @@ public class Race implements IDataBaseEntity {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
                     switch (i) {
-                        case 7, 10, 12, 14, 16, 18:
-                            preparedStatement.setNull(i, Types.TIME);
-                        case 9, 11, 13, 15, 17:
-                            preparedStatement.setNull(i, Types.DATE);
+                        case 5, 8 -> preparedStatement.setNull(i, Types.VARCHAR);
+                        case 7, 10, 12, 14, 16, 18 -> preparedStatement.setNull(i, Types.TIME);
+                        case 9, 11, 13, 15, 17 -> preparedStatement.setNull(i, Types.DATE);
                     }
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
@@ -101,10 +100,10 @@ public class Race implements IDataBaseEntity {
         Integer year = convertToInt(csvLineDataSplitted[1], dataLineNumber);
         Integer round = convertToInt(csvLineDataSplitted[2], dataLineNumber);
         Integer circuitId = convertToInt(csvLineDataSplitted[3], dataLineNumber);
-        String name = csvLineDataSplitted[4].replace("\"", "");
+        String name = returnStringOrNull(csvLineDataSplitted[4].replace("\"", ""), dataLineNumber);
         Date date = convertToDate(csvLineDataSplitted[5], dataLineNumber);
         Time time = convertToTime(csvLineDataSplitted[6], dataLineNumber);
-        String url = csvLineDataSplitted[7].replace("\"", "");
+        String url = returnStringOrNull(csvLineDataSplitted[7].replace("\"", ""), dataLineNumber);
         Date fp1Date = convertToDate(csvLineDataSplitted[8], dataLineNumber);
         Time fp1Time = convertToTime(csvLineDataSplitted[9], dataLineNumber);
         Date fp2Date = convertToDate(csvLineDataSplitted[10], dataLineNumber);

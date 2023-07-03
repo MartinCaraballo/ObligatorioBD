@@ -6,8 +6,7 @@ import com.obligatoriobd.entities.PitStop;
 import java.lang.reflect.Field;
 import java.sql.*;
 
-import static com.obligatoriobd.utils.Convertions.convertToInt;
-import static com.obligatoriobd.utils.Convertions.convertToTime;
+import static com.obligatoriobd.utils.Convertions.*;
 
 public class DriverStanding implements IDataBaseEntity {
 
@@ -40,7 +39,11 @@ public class DriverStanding implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.INTEGER);
+                    if (i == 6) {
+                        preparedStatement.setNull(i, Types.VARCHAR);
+                    } else {
+                        preparedStatement.setNull(i, Types.INTEGER);
+                    }
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
@@ -66,7 +69,7 @@ public class DriverStanding implements IDataBaseEntity {
         Integer driverId = convertToInt(csvLineDataSplitted[2], dataLineNumber);
         Integer points = convertToInt(csvLineDataSplitted[3], dataLineNumber);
         Integer position = convertToInt(csvLineDataSplitted[4], dataLineNumber);
-        String positionText = csvLineDataSplitted[5].replace("\"", "");
+        String positionText = returnStringOrNull(csvLineDataSplitted[5].replace("\"", ""), dataLineNumber);
         Integer wins = convertToInt(csvLineDataSplitted[6], dataLineNumber);
 
         return new DriverStanding(driverStandingId, raceId, driverId, points, position, positionText, wins);

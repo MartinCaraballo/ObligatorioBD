@@ -83,7 +83,7 @@ public class LoadFromCsvCommand {
             } catch (NullPointerException dataBaseNotFoundOrNotConnected) {
                 errors.add(dataBaseNotFoundOrNotConnected.getMessage());
                 return;
-            } catch (NoSuchMethodException | SQLException | InvocationTargetException |
+            } catch (NoSuchMethodException | InvocationTargetException |
                      IllegalAccessException methodException) {
                 errors.add(methodException.getMessage());
             }
