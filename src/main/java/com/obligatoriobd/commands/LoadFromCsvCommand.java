@@ -79,11 +79,11 @@ public class LoadFromCsvCommand {
                 if (dbController == null) {
                     throw new NullPointerException("Data base not found or not connected.");
                 }
-                dbController.insertEntity(targetObject, errors);
+                dbController.insertEntity(targetObject);
             } catch (NullPointerException dataBaseNotFoundOrNotConnected) {
                 errors.add(dataBaseNotFoundOrNotConnected.getMessage());
                 return;
-            } catch (NoSuchMethodException | InvocationTargetException |
+            } catch (NoSuchMethodException | SQLException | InvocationTargetException |
                      IllegalAccessException methodException) {
                 errors.add(methodException.getMessage());
             }

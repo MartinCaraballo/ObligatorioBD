@@ -68,19 +68,11 @@ public class DataBaseController {
         return dbController;
     }
 
-    public void insertEntity(IDataBaseEntity dataBaseEntity, List<String> errors) {
-        Thread thread = new Thread(() -> {
-            try {
-                Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
-                PreparedStatement preparedStatement = dataBaseEntity.getInsertStatement(connection);
-                preparedStatement.execute();
-                connection.close();
-            } catch (SQLException sqlException) {
-                errors.add(sqlException.getMessage());
-                System.err.println(sqlException.getMessage());
-            }
-        });
-        thread.start();
+    public void insertEntity(IDataBaseEntity dataBaseEntity) throws SQLException {
+        Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
+        PreparedStatement preparedStatement = dataBaseEntity.getInsertStatement(connection);
+        preparedStatement.execute();
+        connection.close();
     }
 
     /**
