@@ -1,6 +1,7 @@
 package com.obligatoriobd.database;
 
 import java.sql.*;
+import java.util.List;
 
 public class DataBaseController {
 
@@ -43,11 +44,11 @@ public class DataBaseController {
      * @param dataBaseUser   database's new user.
      * @param dataBasePasswd database's new password.
      */
-    public static Boolean changeConnection(String dataBaseUrl, String dataBaseUser, String dataBasePasswd) throws IllegalAccessException {
+    public static void changeConnection(String dataBaseUrl, String dataBaseUser, String dataBasePasswd) throws IllegalAccessException {
         DataBaseController old = dbController;
         dbController = new DataBaseController(dataBaseUrl, dataBaseUser, dataBasePasswd);
         if (dbController.testConnection()) {
-            return true;
+            return;
         }
         dbController = old;
         throw new IllegalAccessException("The new database is unreachable. Connection was not changed.");
@@ -67,7 +68,7 @@ public class DataBaseController {
         return dbController;
     }
 
-    public void insertEntity(IDataBaseEntity dataBaseEntity) {
+    public void insertEntity(IDataBaseEntity dataBaseEntity, List<String> errors) {
         Thread thread = new Thread(() -> {
             try {
                 Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
@@ -75,6 +76,7 @@ public class DataBaseController {
                 preparedStatement.execute();
                 connection.close();
             } catch (SQLException sqlException) {
+                errors.add(sqlException.getMessage());
                 System.err.println(sqlException.getMessage());
             }
         });
