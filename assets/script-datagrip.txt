@@ -39,7 +39,7 @@ CREATE TABLE Drivers(
 CREATE TABLE Constructors(
     constructor_id int primary key,
     constructor_ref varchar(30),
-    name varchar(20),
+    name varchar(30),
     nationality varchar(15),
     url varchar(80)
 );

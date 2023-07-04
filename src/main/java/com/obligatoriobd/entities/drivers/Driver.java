@@ -2,11 +2,10 @@ package com.obligatoriobd.entities.drivers;
 
 import com.obligatoriobd.database.IDataBaseEntity;
 
-import static com.obligatoriobd.utils.Convertions.convertToDate;
-import static com.obligatoriobd.utils.Convertions.convertToInt;
-
 import java.lang.reflect.Field;
 import java.sql.*;
+
+import static com.obligatoriobd.utils.Convertions.*;
 
 public class Driver implements IDataBaseEntity {
 
@@ -43,7 +42,7 @@ public class Driver implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    if (i == 2) {
+                    if (i == 3) {
                         preparedStatement.setNull(i, Types.INTEGER);
                     } else {
                         preparedStatement.setNull(i, Types.VARCHAR);
@@ -71,14 +70,15 @@ public class Driver implements IDataBaseEntity {
      */
     public static Driver createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
         Integer driverId = convertToInt(csvLineDataSplitted[0], dataLineNumber);
-        String driverRef = csvLineDataSplitted[1].replace("\"", "");
+        String driverRef = returnStringOrNull(csvLineDataSplitted[1].replace("\"", ""), dataLineNumber);
         Integer number = convertToInt(csvLineDataSplitted[2], dataLineNumber);
-        String code = csvLineDataSplitted[3].replace("\"", "");
-        String forename = csvLineDataSplitted[4].replace("\"", "");
-        String surname = csvLineDataSplitted[5].replace("\"", "");
+        String code = returnStringOrNull(csvLineDataSplitted[3].replace("\"", ""), dataLineNumber);
+        String forename = returnStringOrNull(csvLineDataSplitted[4].replace("\"", ""), dataLineNumber);
+        String surname = returnStringOrNull(csvLineDataSplitted[5].replace("\"", ""), dataLineNumber);
         Date dateOfBirth = convertToDate(csvLineDataSplitted[6], dataLineNumber);
-        String nationality = csvLineDataSplitted[7].replace("\"", "");
-        String url = csvLineDataSplitted[8].replace("\"", "");
+        String nationality = returnStringOrNull(csvLineDataSplitted[7].replace("\"", ""), dataLineNumber);
+        String url = returnStringOrNull(csvLineDataSplitted[8].replace("\"", ""), dataLineNumber);
+
         return new Driver(driverId, driverRef, number, code, forename, surname, dateOfBirth, nationality, url);
     }
 

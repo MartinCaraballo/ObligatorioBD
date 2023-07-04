@@ -191,3 +191,16 @@
 1687659811712:send-select-query "SELECT * FROM Drivers"
 1687660099512:connect
 1687660100492:send-select-query "SELECT * FROM Drivers"
+1688338863354:help
+1688338877597:get-answer 1
+1688338880601:connect
+1688338884245:get-answer 1
+1688338913539:get-answer 2
+1688339033888:get-answer 3
+1688339042888:get-answer 4
+1688339051811:get-answer 5
+1688339056389:get-answer 6
+1688339062858:get-answer 7
+1688339068063:get-answer 8
+1688339075760:get-anwer 9
+1688339079572:get-answer 9

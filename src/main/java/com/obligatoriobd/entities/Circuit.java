@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import static com.obligatoriobd.utils.Convertions.convertToDouble;
+import static com.obligatoriobd.utils.Convertions.returnStringOrNull;
 
 public class Circuit implements IDataBaseEntity {
 
@@ -48,7 +49,10 @@ public class Circuit implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.DOUBLE);
+                    switch (i) {
+                        case 6, 7, 8 -> preparedStatement.setNull(i, Types.DOUBLE);
+                        default -> preparedStatement.setNull(i, Types.VARCHAR);
+                    }
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
@@ -72,14 +76,15 @@ public class Circuit implements IDataBaseEntity {
      */
     public static Circuit createFromCsv(String[] csvLineDataSplitted, Integer dataLineNumber) {
         Integer circuitId = Integer.parseInt(csvLineDataSplitted[0]);
-        String circuitRef = csvLineDataSplitted[1].replace("\"", "");
-        String name = csvLineDataSplitted[2].replace("\"", "");
-        String location = csvLineDataSplitted[3].replace("\"", "");
-        String country = csvLineDataSplitted[4].replace("\"", "");
+        String circuitRef = returnStringOrNull(csvLineDataSplitted[1].replace("\"", ""), dataLineNumber);
+        String name = returnStringOrNull(csvLineDataSplitted[2].replace("\"", ""), dataLineNumber);
+        String location = returnStringOrNull(csvLineDataSplitted[3].replace("\"", ""), dataLineNumber);
+        String country = returnStringOrNull(csvLineDataSplitted[4].replace("\"", ""), dataLineNumber);
         Double latitude = convertToDouble(csvLineDataSplitted[5], dataLineNumber);
         Double longitude = convertToDouble(csvLineDataSplitted[6], dataLineNumber);
         Double altitude = convertToDouble(csvLineDataSplitted[7], dataLineNumber);
-        String url = csvLineDataSplitted[8].replace("\"", "");
+        String url = returnStringOrNull(csvLineDataSplitted[8].replace("\"", ""), dataLineNumber);
+
         return new Circuit(circuitId, circuitRef, name, location, country, latitude, longitude, altitude, url);
     }
 }

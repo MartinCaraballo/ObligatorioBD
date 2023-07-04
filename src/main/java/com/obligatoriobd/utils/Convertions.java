@@ -64,4 +64,17 @@ public class Convertions {
             return null;
         }
     }
+
+    /**
+     * Returns the String or null if the string equals /N.
+     */
+    public static String returnStringOrNull(String string, int dataLineNumber) {
+        if (string.equals("\"N")) {
+            System.err.println("Null data in line " + dataLineNumber);
+            return null;
+        } else {
+            return string;
+        }
+    }
+
 }

@@ -9,8 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import static com.obligatoriobd.utils.Convertions.convertToDouble;
-import static com.obligatoriobd.utils.Convertions.convertToInt;
+import static com.obligatoriobd.utils.Convertions.*;
 
 public class ConstructorStanding implements IDataBaseEntity {
 
@@ -45,7 +44,11 @@ public class ConstructorStanding implements IDataBaseEntity {
             try {
                 Object actualFieldValue = objectData[i].get(this);
                 if (actualFieldValue == null) {
-                    preparedStatement.setNull(i, Types.INTEGER);
+                    if (i == 6) {
+                        preparedStatement.setNull(i, Types.VARCHAR);
+                    } else {
+                        preparedStatement.setNull(i, Types.INTEGER);
+                    }
                 } else if (actualFieldValue.getClass().equals(Integer.class)) {
                     preparedStatement.setInt(i, (int) actualFieldValue);
                 } else if (actualFieldValue.getClass().equals(String.class)) {
@@ -71,7 +74,7 @@ public class ConstructorStanding implements IDataBaseEntity {
         Integer constructorId = convertToInt(csvLineDataSplitted[2], dataLineNumber);
         Integer points = convertToInt(csvLineDataSplitted[3], dataLineNumber);
         Integer position = convertToInt(csvLineDataSplitted[4], dataLineNumber);
-        String positionText = csvLineDataSplitted[5].replace("\"", "");
+        String positionText = returnStringOrNull(csvLineDataSplitted[5].replace("\"", ""), dataLineNumber);
         Integer wins = convertToInt(csvLineDataSplitted[6], dataLineNumber);
 
 
